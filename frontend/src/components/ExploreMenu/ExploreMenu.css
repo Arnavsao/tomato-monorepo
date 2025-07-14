@@ -1,0 +1,86 @@
+.explore-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.explore-menu h1 {
+    color: #262626;
+    font-weight: 500;
+}
+
+.explore-menu-text {
+    max-width: 60%;
+    color: #808080; /* Fixed property name */
+    /* Remove 'columns' if you are not using a multi-column layout */
+}
+
+.explore-menu-list {
+    display: flex;
+    justify-content: flex-start; /* Use flex-start to prevent spacing issues */
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    margin: 15px 0;
+    overflow-x: auto; /* Changed to auto for proper scrolling */
+    white-space: nowrap; /* Ensure items don't wrap */
+}
+
+.explore-menu-list::-webkit-scrollbar {
+    height: 8px; /* Provide a height to the scrollbar if needed */
+}
+
+.explore-menu-list::-webkit-scrollbar-thumb {
+    background: #888; /* Style scrollbar thumb */
+    border-radius: 10px;
+}
+
+.explore-menu-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Style scrollbar track */
+}
+
+.explore-menu-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.explore-menu-list-item img {
+    width: 7.5vw; /* Size of the image */
+    min-width: 80px; /* Minimum width of the image */
+    border-radius: 50%; /* Makes the border circular */
+    transition: border 0.3s ease; /* Smooth transition for border change */
+}
+
+.explore-menu-list-item img.active {
+    border: 4px solid tomato; /* Border when active */
+    padding: 2px; /* Padding to make the border visible */
+}
+
+.explore-menu-list-item p {
+    margin-top: 10px;
+    color: #747474;
+    font-size: max(.5vw, 14px); /* Responsive font size */
+    cursor: pointer;
+}
+
+.explore-menu hr {
+    margin: 10px 0;
+    height: 2px;
+    background-color: #e2e2e2;
+    border: none;
+}
+
+.explore-menu-list-item.active{
+    border: 4px solid tomato;
+    padding: 2px ;
+}
+
+@media (max-width:1050px) {
+    .explore-menu-text{
+        max-width: 100%;
+        font-size: 14px;
+    }
+}

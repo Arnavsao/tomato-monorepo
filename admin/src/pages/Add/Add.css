@@ -1,0 +1,137 @@
+/* Add.css */
+
+/* General container styling */
+.add {
+    width: 70%;
+    margin-left: max(5vw, 25px);  /* Responsive left margin */
+    margin-top: 50px;
+    color: #6d6d6d;
+    font-size: 1rem;  /* Ensure readable font size */
+    max-width: 1200px;  /* Optional: prevent it from becoming too wide */
+    margin-right: 5%;  /* Optional: add some space on the right side */
+}
+
+/* Form styling */
+.add form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  /* Space between form fields */
+}
+
+/* Flexbox layout for form sections */
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;  /* Space between elements within each section */
+}
+
+/* Image upload section */
+.add-img-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.add-img-upload p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.add-img-upload img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Input fields */
+.add-product-name input,
+.add-product-description textarea,
+.add-category select,
+.add-price input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* Product description textarea */
+.add-product-description textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Category and Price sections */
+.add-category-price {
+    display: flex;
+    gap: 20px;
+}
+
+/* Individual category and price sections */
+.add-category, .add-price {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;  /* Ensures both sections take equal width */
+}
+
+/* Button styling */
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    .add {
+        width: 80%;  /* Adjust width on medium screens */
+    }
+
+    .add-btn {
+        font-size: 1rem;  /* Slightly smaller button font size */
+    }
+}
+
+@media (max-width: 768px) {
+    .add {
+        width: 90%;  /* Adjust width on small screens */
+    }
+
+    .add-category-price {
+        flex-direction: column;  /* Stack category and price sections on smaller screens */
+        gap: 10px;
+    }
+
+    .add-category, .add-price {
+        flex: none;  /* Ensure they don’t take full width when stacked */
+    }
+}
+
+@media (max-width: 480px) {
+    .add {
+        width: 95%;  /* Take up more space on extra small screens */
+    }
+
+    .add-img-upload img {
+        width: 80px;  /* Smaller image for mobile */
+        height: 80px;
+    }
+
+    .add-btn {
+        padding: 12px;  /* Smaller button padding for mobile */
+    }
+}
