@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import './List.css'
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -9,7 +9,7 @@ const List = ({url}) => {
   
   const [list,setList]=useState([]);
 
-  const fetchList = async()=>{
+  const fetchList = useCallback(async()=>{
     const response = await axios.get(`${url}/api/food/list`);
     console.log(response.data);
     if (response.data.success){
@@ -19,7 +19,7 @@ const List = ({url}) => {
     {
       toast.error("Error")
     }   
-  }
+  }, [url])
 
 
   //to remove the food item
@@ -38,7 +38,7 @@ const List = ({url}) => {
 
   useEffect(()=>{
       fetchList();
-    },[])  
+    },[fetchList])  
   return (
     <div className='list add flex-col'>
       <p>All Food List</p>
