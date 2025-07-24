@@ -10,6 +10,7 @@ import LoginPopup from './components/LoginPopup/LoginPopup'; // Import LoginPopu
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false); // Manage login popup state
+  
 
   return (
     <>
