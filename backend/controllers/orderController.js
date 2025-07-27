@@ -1,15 +1,13 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
-import Stripe from "stripe"
+import Razorpay from 'razorpay';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 const placeOrder = async (req,res)=>{
-
-    const frontendUrl = "http://localhost:5173";
-
     try {
         const newOrder = new orderModel({
             userId:req.user._id,
@@ -19,37 +17,8 @@ const placeOrder = async (req,res)=>{
         })
         await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
-
-        const line_items = req.body.items.map((item)=>({
-                price_data:{
-                    currency:"inr",
-                    product_data:{
-                        name:item.name,
-                    },
-                    unit_amount:item.price*100*80,
-                },
-                quantity:item.quantity,
-        }))
-        line_items.push({
-            price_data:{
-                currency:"inr",
-                product_data:{
-                    name:"Delivery Charges",
-                },
-                unit_amount:2*100*80,
-            },
-            quantity:1,
-        })
-
-        const session = await stripe.checkout.sessions.create({
-            line_items:line_items,
-            mode:"payment",
-            success_url:`${frontendUrl}/verify?success=true&orderId=${newOrder._id}`,
-            cancel_url:`${frontendUrl}/cancel`,
-            metadata:{
-                order_id:newOrder._id,
-            },
-        })      
+        
+        res.json({ success: true, orderId: newOrder._id });
     }
     catch(error){
         console.log(error);
@@ -57,4 +26,21 @@ const placeOrder = async (req,res)=>{
     }
 }
 
-export { placeOrder }
+// POST /api/orders/razorpay
+const createRazorpayOrder = async (req, res) => {
+  try {
+    const { amount, currency = 'INR', receipt } = req.body;
+    const options = {
+      amount: amount * 100, // amount in paise
+      currency,
+      receipt,
+      payment_capture: 1,
+    };
+    const order = await razorpay.orders.create(options);
+    res.json({ orderId: order.id, amount: order.amount, currency: order.currency });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create Razorpay order', details: error.message });
+  }
+};
+
+export { placeOrder, createRazorpayOrder }
