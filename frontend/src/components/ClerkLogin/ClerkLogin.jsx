@@ -1,15 +1,15 @@
 import { SignIn } from '@clerk/clerk-react';
 import PropTypes from 'prop-types';
-import './ClerkLogin.css';
 
 const ClerkLogin = ({ setShowLogin }) => {
   return (
-    <div className='clerk-login-overlay'>
-      <div className='clerk-login-container'> 
-        <div className="clerk-login-header">
+    <div className='absolute z-10 w-full h-full bg-black/60 grid'>
+      <div className='place-self-center w-[max(30vw,450px)] bg-white rounded-lg animate-fadeIn flex flex-col items-end'>
+        <div className="flex justify-between items-center w-full p-5 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-800">Sign In</h2>
           <button 
             onClick={() => setShowLogin(false)} 
-            className="close-button"
+            className="bg-none border-none text-lg cursor-pointer text-gray-500 p-2.5 rounded-tr-lg w-8 h-8 flex items-center justify-center hover:bg-gray-100"
           >
             ✕
           </button>
@@ -17,8 +17,8 @@ const ClerkLogin = ({ setShowLogin }) => {
         <SignIn 
           appearance={{
             elements: {
-              rootBox: "clerk-signin-root",
-              card: "clerk-signin-card"
+              rootBox: "w-full",
+              card: "shadow-none border-none"
             }
           }}
           redirectUrl="/"
