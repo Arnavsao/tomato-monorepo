@@ -9,13 +9,13 @@ import axios from 'axios';
 
 function LoginPopup({ setShowLogin }) {
 
-  const {url,setToken} = useContext(StoreContext)
+  const {url, setToken, loadUserProfile} = useContext(StoreContext)
 
   const [cursorState, setCursorState] = useState("Login"); // Initialize state to "Login"
   const [data,setData]= useState({
     name:"",
     email:"",
-    passowrd:""
+    password:""
   })
 
   const onChangeHandler =(event) =>{
@@ -38,6 +38,7 @@ function LoginPopup({ setShowLogin }) {
     if (response.data.success){
       setToken(response.data.token);
       localStorage.setItem("token",response.data.token);
+      await loadUserProfile(response.data.token);
       setShowLogin(false)
     }
     else{

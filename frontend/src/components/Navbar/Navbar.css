@@ -60,6 +60,21 @@
 .navbar-profile{
     position: relative;
 }
+
+.navbar-profile .profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-profile img:not(.profile-picture) {
+    width: 20px;
+}
+
 .nav-profile-dropdown{
     position: absolute;
     display: none;

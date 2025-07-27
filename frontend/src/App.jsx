@@ -6,21 +6,29 @@ import Cart from './pages/Cart/Cart';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
-import LoginPopup from './components/LoginPopup/LoginPopup'; // Import LoginPopup
+import ClerkLogin from './components/ClerkLogin/ClerkLogin';
+import ProfileSettings from './components/ProfileSettings/ProfileSettings';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RefundPolicy from './pages/RefundPolicy';
 
 const App = () => {
-  const [showLogin, setShowLogin] = useState(false); // Manage login popup state
-  
+  const [showLogin, setShowLogin] = useState(false);
+  const [showProfileSettings, setShowProfileSettings] = useState(false);
 
   return (
     <>
-      {showLogin && <LoginPopup setShowLogin={setShowLogin} cursorState="Login" />}
+      {showLogin && <ClerkLogin setShowLogin={setShowLogin} />}
+      {showProfileSettings && <ProfileSettings setShowProfileSettings={setShowProfileSettings} />}
       <div className='app'>
-        <Navbar setShowLogin={setShowLogin} />
+        <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<PlaceOrder />} />
+          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+          <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
+          <Route path='/refund-policy' element={<RefundPolicy />} />
         </Routes>
       </div>
       <Footer />

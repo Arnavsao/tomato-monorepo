@@ -13,6 +13,7 @@ const StoreContextProvider = (props) => {
     const url = "https://tomato-backend-weqp.onrender.com";
     const [token, setToken] = useState("");
     const [food_list, setFoodlist] = useState([]);
+    const [userProfile, setUserProfile] = useState(null);
 
     // ✅ Fix: Prevent undefined item addition
     const addToCart = async (itemId) => {
@@ -89,6 +90,36 @@ const StoreContextProvider = (props) => {
         }
     };
 
+    // Load user profile
+    const loadUserProfile = async (token) => {
+        try {
+            const response = await axios.get(`${url}/api/user/profile`, {
+                headers: { token }
+            });
+            if (response.data.success) {
+                setUserProfile(response.data.user);
+            }
+        } catch (error) {
+            console.error("Error loading user profile:", error);
+        }
+    };
+
+    // Update user profile
+    const updateUserProfile = async (profileData) => {
+        try {
+            const response = await axios.put(`${url}/api/user/profile`, profileData, {
+                headers: { token }
+            });
+            if (response.data.success) {
+                setUserProfile(response.data.user);
+                return { success: true };
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            return { success: false, error: error.response?.data?.message || "Update failed" };
+        }
+    };
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
@@ -116,8 +147,10 @@ const StoreContextProvider = (props) => {
         async function loadData() {
             await fetchFoodList();
             if (localStorage.getItem("token")) {
-                setToken(localStorage.getItem("token"));
-                await loadCartData(localStorage.getItem("token"));
+                const token = localStorage.getItem("token");
+                setToken(token);
+                await loadCartData(token);
+                await loadUserProfile(token);
             }
         }
         loadData();
@@ -132,7 +165,10 @@ const StoreContextProvider = (props) => {
         getTotalCartAmount,
         url,
         token,
-        setToken
+        setToken,
+        userProfile,
+        updateUserProfile,
+        loadUserProfile
     };
 
     return (
