@@ -1,23 +1,19 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useContext, useState } from 'react'; // Added useContext import
+import React, { useContext, useState } from 'react';
+import { useUser, SignOutButton } from '@clerk/clerk-react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
 
   const [menu, setMenu] = useState("menu");
-  const { getTotalCartAmount,token,setToken} = useContext(StoreContext); // Fixed useContext usage
+  const { getTotalCartAmount } = useContext(StoreContext);
+  const { user, isSignedIn } = useUser();
   const navigate = useNavigate();
-  const logout = ()=>{
-    localStorage.removeItem("token");
-    setToken("");
-    navigate("/")
-  }
-
 
   return (
     <div className='navbar'>
@@ -63,17 +59,31 @@ const Navbar = ({ setShowLogin }) => {
           </Link>
           <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>
-        {!token?<button onClick={() => setShowLogin(true)}>sign in</button>
-        : <div className='navbar-profile'>
-          <img src={assets.profile_icon} alt="" />
-          <ul className='nav-profile-dropdown'>
-            <li><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
-            <hr />
-            <li onClick={logout}><img src={assets.logout_icon} alt="" /><p>Logout</p></li>
-          </ul>
-        </div>
-        }
-
+        {!isSignedIn ? (
+          <button onClick={() => setShowLogin(true)}>sign in</button>
+        ) : (
+          <div className='navbar-profile'>
+            <img 
+              src={user?.imageUrl || assets.profile_icon} 
+              alt="Profile" 
+              className="profile-picture"
+            />
+            <ul className='nav-profile-dropdown'>
+              <li><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
+              <hr />
+              <li onClick={() => setShowProfileSettings(true)}><img src={assets.profile_icon} alt="" /><p>Profile Settings</p></li>
+              <hr />
+              <li>
+                <SignOutButton>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                    <img src={assets.logout_icon} alt="" />
+                    <p>Logout</p>
+                  </div>
+                </SignOutButton>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
 
 // 🔹 Register User with Email Domain Validation
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, profilePicture } = req.body;
 
   try {
     if (!validator.isEmail(email)) {
@@ -78,11 +78,88 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new userModel({ name, email, password: hashedPassword, cartData: {} });
+    const newUser = new userModel({ 
+      name, 
+      email, 
+      password: hashedPassword, 
+      profilePicture: profilePicture || "",
+      cartData: {} 
+    });
     const user = await newUser.save();
 
     const token = createToken(user._id);
-    res.status(201).json({ success: true, token, role: user.role });
+    res.status(201).json({ 
+      success: true, 
+      token, 
+      role: user.role,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profilePicture
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+// 🔹 Update User Profile
+const updateProfile = async (req, res) => {
+  const { name, profilePicture } = req.body;
+  const userId = req.user._id;
+
+  try {
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (profilePicture) updateData.profilePicture = profilePicture;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true, select: '-password' }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.json({ 
+      success: true, 
+      message: "Profile updated successfully",
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        profilePicture: updatedUser.profilePicture
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+// 🔹 Get User Profile
+const getUserProfile = async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    const user = await userModel.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.json({ 
+      success: true, 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profilePicture
+      }
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error." });
@@ -129,4 +206,4 @@ const addToCart = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, addToCart };
+export { loginUser, registerUser, updateProfile, getUserProfile, addToCart };
