@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const ClerkLogin = ({ setShowLogin }) => {
   return (
-    <div className='absolute z-10 w-full h-full bg-black/60 grid'>
-      <div className='place-self-center w-[max(30vw,450px)] bg-white rounded-lg animate-fadeIn flex flex-col items-end'>
+    <div className='absolute z-10 w-full h-full  bg-black/60 grid'>
+      <div className='place-self-center  bg-white rounded-lg animate-fadeIn flex flex-col items-end'>
         <div className="flex justify-between items-center w-full p-5 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800">Sign In</h2>
           <button 

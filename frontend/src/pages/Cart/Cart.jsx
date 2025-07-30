@@ -27,7 +27,7 @@ function Cart() {
                 <p className="m-0">{item.name}</p>
                 <p className="m-0">{item.price}</p>
                 <p className="m-0">{cartItems[item._id]}</p>
-                <p className="m-0">${item.price * cartItems[item._id]}</p>
+                <p className="m-0">₹{item.price * cartItems[item._id]}</p>
                 <p onClick={() => removeFromCart(item._id)} className='cursor-pointer text-red-500 font-bold text-lg text-center'>x</p>
               </div>
             );
@@ -36,39 +36,39 @@ function Cart() {
           }
         })}
       </div>
-      <div className="mt-10 flex justify-between gap-[max(5vw,20px)] xl:flex-col-reverse">
+      <div className="mt-10 flex flex-col md:flex-row justify-between gap-[max(5vw,20px)]">
         <div className="flex-1 flex flex-col gap-5">
           <div>
             <div className="flex justify-between items-center">
               <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
+              <p>₹{getTotalCartAmount()}</p>
             </div>
             <hr className="my-2.5" />
             <div className="flex justify-between items-center">
               <p>Delivery fee</p>
-              <p>${getTotalCartAmount()===0?0:2}</p>
+              <p>₹{getTotalCartAmount()===0?0:40}</p>
             </div>
             <hr className="my-2.5" />
             <div className="flex justify-between items-center">
               <p><b>Total</b></p>
-              <p>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</p>
+              <p>₹{getTotalCartAmount()===0?0:getTotalCartAmount()+40}</p>
             </div>
           </div>
           <button 
             onClick={()=>navigate('/order')}
-            className="border-none text-white bg-tomato w-[max(15vw,200px)] py-3 rounded cursor-pointer hover:bg-[rgb(228,60,30)]"
+            className="border-none text-white bg-[#ff6347] w-[max(15vw,200px)] py-3 rounded cursor-pointer hover:bg-[rgb(228,60,30)]"
           >
             PROCEED TO CHECKOUT
           </button>
         </div>
-        <div className="flex-1 w-[80%] xl:justify-start">
+        <div className="flex-1 w-full md:w-[80%]">
           <div>
             <p className="text-[#555] mt-5">If you have a promocode, enter it here</p>
             <div className="mt-2.5 flex justify-between items-center rounded">
               <input 
                 type="text" 
                 placeholder='promocode' 
-                className="bg-transparent border-none outline-none pl-2.5 bg-[rgb(239,239,239)] h-10 rounded w-[70%] mr-5"
+                className="bg-transparent border-1 outline-none pl-2.5 bg-[rgb(239,239,239)] h-10 rounded w-[70%] mr-5"
               />
               <button className="w-[max(10vw,150px)] py-3 px-1.5 bg-[rgb(54,54,54)] border-none text-white rounded hover:bg-black">
                 Submit

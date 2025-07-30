@@ -5,10 +5,10 @@ const ExploreMenu = ({ category, setCategory }) => {
 
   return (
     <div className='flex flex-col gap-5' id='explore-menu'>
-        <h1 className="text-[#262626] font-medium">
+        <h1 className="text-[#262626] font-medium text-3xl">
             Explore our menu
         </h1>
-        <p className='max-w-[60%] text-[#808080] lg:max-w-full lg:text-sm'>
+        <p className=' text-[#808080] lg:max-w-full text-sm lg:text-md lg:w-[80%]'>
             Choose from a diverse menu featuring a delectable array of dishes. Our mission is to satisfy your cravings and elevate your dining experience, one meal at a time.
         </p>
         <div className="flex justify-start items-center gap-8 text-center my-4 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
