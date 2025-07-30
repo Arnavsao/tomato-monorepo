@@ -89,7 +89,7 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
         {!isSignedIn ? (
           <button 
             onClick={() => setShowLogin(true)}
-            className='bg-transparent text-base text-[#49557e] border border-tomato py-2.5 px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
+            className='bg-transparent text-base text-[#49557e] border border-tomato py-2 px-4 lg:py-2.5 lg:px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
           >
             sign in
           </button>
