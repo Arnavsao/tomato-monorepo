@@ -1,7 +1,4 @@
 import userModel from "../models/userModel.js";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import validator from "validator";
 import dns from "dns";
 import util from "util";
 
@@ -19,81 +16,35 @@ const isValidEmailDomain = async (email) => {
   }
 };
 
-// Create JWT Token
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-};
-
-// 🔹 Login User
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+// 🔹 Create or Get User from Clerk Session
+const createOrGetUser = async (req, res) => {
+  const { userId, name, email, profilePicture } = req.body;
 
   try {
-    if (!validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Invalid email format." });
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required." });
     }
 
-    const user = await userModel.findOne({ email });
+    // Check if user already exists
+    let user = await userModel.findOne({ clerkId: userId });
+    
     if (!user) {
-      return res.status(404).json({ success: false, message: "User does not exist." });
+      // Create new user
+      const newUser = new userModel({ 
+        clerkId: userId,
+        name: name || "User", 
+        email: email || "", 
+        profilePicture: profilePicture || "",
+        cartData: {} 
+      });
+      user = await newUser.save();
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid credentials." });
-    }
-
-    const token = createToken(user._id);
-    res.json({ success: true, token, role: user.role });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server error." });
-  }
-};
-
-// 🔹 Register User with Email Domain Validation
-const registerUser = async (req, res) => {
-  const { name, email, password, profilePicture } = req.body;
-
-  try {
-    if (!validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Invalid email format." });
-    }
-
-    // Check if the email domain is valid
-    const isRealDomain = await isValidEmailDomain(email);
-    if (!isRealDomain) {
-      return res.status(400).json({ success: false, message: "Invalid email domain." });
-    }
-
-    const exists = await userModel.findOne({ email });
-    if (exists) {
-      return res.status(409).json({ success: false, message: "User already exists." });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).json({ success: false, message: "Password must be at least 8 characters long." });
-    }
-
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new userModel({ 
-      name, 
-      email, 
-      password: hashedPassword, 
-      profilePicture: profilePicture || "",
-      cartData: {} 
-    });
-    const user = await newUser.save();
-
-    const token = createToken(user._id);
-    res.status(201).json({ 
+    res.json({ 
       success: true, 
-      token, 
-      role: user.role,
       user: {
         id: user._id,
+        clerkId: user.clerkId,
         name: user.name,
         email: user.email,
         profilePicture: user.profilePicture
@@ -108,15 +59,15 @@ const registerUser = async (req, res) => {
 // 🔹 Update User Profile
 const updateProfile = async (req, res) => {
   const { name, profilePicture } = req.body;
-  const userId = req.user._id;
+  const userId = req.body.userId; // From Clerk middleware
 
   try {
     const updateData = {};
     if (name) updateData.name = name;
     if (profilePicture) updateData.profilePicture = profilePicture;
 
-    const updatedUser = await userModel.findByIdAndUpdate(
-      userId,
+    const updatedUser = await userModel.findOneAndUpdate(
+      { clerkId: userId },
       updateData,
       { new: true, select: '-password' }
     );
@@ -130,6 +81,7 @@ const updateProfile = async (req, res) => {
       message: "Profile updated successfully",
       user: {
         id: updatedUser._id,
+        clerkId: updatedUser.clerkId,
         name: updatedUser.name,
         email: updatedUser.email,
         profilePicture: updatedUser.profilePicture
@@ -143,10 +95,10 @@ const updateProfile = async (req, res) => {
 
 // 🔹 Get User Profile
 const getUserProfile = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.body.userId; // From Clerk middleware
 
   try {
-    const user = await userModel.findById(userId).select('-password');
+    const user = await userModel.findOne({ clerkId: userId }).select('-password');
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found." });
     }
@@ -155,6 +107,7 @@ const getUserProfile = async (req, res) => {
       success: true, 
       user: {
         id: user._id,
+        clerkId: user.clerkId,
         name: user.name,
         email: user.email,
         profilePicture: user.profilePicture
@@ -166,44 +119,4 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// 🔹 Add to Cart with Fixes
-const addToCart = async (req, res) => {
-  const { userId, itemId } = req.body;
-
-  try {
-    if (!userId || !itemId) {
-      return res.status(400).json({ success: false, message: "Invalid userId or itemId." });
-    }
-
-    let userData = await userModel.findById(userId);
-    if (!userData) {
-      return res.status(404).json({ success: false, message: "User not found." });
-    }
-
-    let cartData = userData.cartData || {}; // Ensure cartData is an object
-
-    // Ensure the itemId is valid and not undefined
-    if (!itemId || itemId === "undefined") {
-      return res.status(400).json({ success: false, message: "Invalid itemId." });
-    }
-
-    // Add or increment item quantity
-    cartData[itemId] = (cartData[itemId] || 0) + 1;
-
-    // Remove any undefined properties
-    const sanitizedCart = Object.fromEntries(
-      Object.entries(cartData).filter(([key]) => key !== "undefined")
-    );
-
-    // Update the user cart data
-    await userModel.findByIdAndUpdate(userId, { cartData: sanitizedCart });
-
-    res.json({ success: true, message: "Item added to cart", cartData: sanitizedCart });
-
-  } catch (error) {
-    console.error("Error in addToCart:", error);
-    res.status(500).json({ success: false, message: "Server error." });
-  }
-};
-
-export { loginUser, registerUser, updateProfile, getUserProfile, addToCart };
+export { createOrGetUser, updateProfile, getUserProfile };

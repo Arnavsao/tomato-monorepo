@@ -100,7 +100,7 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
               alt="Profile" 
               className="w-10 h-10 rounded-full object-cover cursor-pointer border-2 border-white shadow-md"
             />
-            <ul className='absolute hidden group-hover:flex flex-col gap-2.5 right-0 z-10 bg-[#fff2ef] p-3 rounded border border-tomato outline-2 outline-white list-none'>
+            <ul className='absolute hidden group-hover:flex flex-col gap-2.5 right-0 z-10 bg-[#fff2ef] p-3 rounded border border-tomato outline-2 outline-white list-none w-44'>
               <li className='flex items-center gap-2.5 cursor-pointer'>
                 <img src={assets.bag_icon} alt="" className='w-5' />
                 <p>Orders</p>
