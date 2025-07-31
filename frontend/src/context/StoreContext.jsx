@@ -3,6 +3,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from '../config/api.js';
 
 // Create the context
 export const StoreContext = createContext(null);
@@ -10,7 +11,7 @@ export const StoreContext = createContext(null);
 // Define the provider component
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
-    const url = "https://tomato-backend-weqp.onrender.com";
+    const url = API_BASE_URL;
     const [token, setToken] = useState("");
     const [food_list, setFoodlist] = useState([]);
     const [userProfile, setUserProfile] = useState(null);

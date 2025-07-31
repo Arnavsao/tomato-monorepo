@@ -13,6 +13,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import RefundPolicy from './pages/RefundPolicy';
 import Delivery from './pages/Delivery';
 import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -39,6 +40,7 @@ const App = () => {
           <Route path='/refund-policy' element={<RefundPolicy />} />
           <Route path='/delivery' element={<Delivery />} />
           <Route path='/about-us' element={<AboutUs />} />
+          <Route path='/contact-us' element={<ContactUs />} />
 
         </Routes>
       </div>

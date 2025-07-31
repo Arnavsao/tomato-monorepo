@@ -20,6 +20,7 @@ const Footer = () => {
                     <li className="mb-2.5"><Link to="/">Home</Link></li>
                     <li className="mb-2.5"><Link to="/about-us">About us</Link></li>
                     <li className="mb-2.5"><Link to="/delivery">Delivery</Link></li>
+                    <li className="mb-2.5"><Link to="/contact-us">Contact Us</Link></li>
                     <li className="mb-2.5"><Link to="/privacy-policy">Privacy Policy</Link></li>
                     <li className="mb-2.5"><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
                     <li className="mb-2.5"><Link to="/refund-policy">Refund & Cancellation Policy</Link></li>
