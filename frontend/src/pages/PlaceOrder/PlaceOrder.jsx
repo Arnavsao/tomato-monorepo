@@ -85,7 +85,7 @@ const PlaceOrder = () => {
           <button 
             type="button" 
             onClick={handleRazorpayPayment}
-            className="mt-8 border-none text-white bg-tomato w-[max(15vw,200px)] py-3 rounded cursor-pointer hover:bg-[rgb(228,60,30)]"
+            className="mt-8 border-none text-white bg-[#ff6347] w-[max(15vw,200px)] py-3 rounded cursor-pointer hover:bg-[rgb(228,60,30)]"
           >
             Pay with Razorpay
           </button>

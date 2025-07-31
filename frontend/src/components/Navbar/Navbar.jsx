@@ -72,8 +72,8 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
           mobile-app
         </a>
         <a 
-          onClick={() => handleNavigation("footer")} 
-          className={`${menu === "contact-us" && location.pathname === "/" ? "pb-0.5 border-b-2 border-[#49557e]" : ""} cursor-pointer`}
+          onClick = {() => navigate("/contact-us")}
+          className='cursor-pointer'
         >
           contact-us
         </a>
@@ -89,7 +89,7 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
         {!isSignedIn ? (
           <button 
             onClick={() => setShowLogin(true)}
-            className='bg-transparent text-base text-[#49557e] border border-tomato py-2 px-4 lg:py-2.5 lg:px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
+            className='bg-transparent text-base text-[#49557e] border border-tomato py-2.5 px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
           >
             sign in
           </button>
