@@ -10,13 +10,13 @@ const razorpay = new Razorpay({
 const placeOrder = async (req,res)=>{
     try {
         const newOrder = new orderModel({
-            userId:req.user._id,
-            items:req.body.items,
-            amount:req.body.amount,
-            address:req.body.address,
+            userId: req.body.userId, // Clerk user ID
+            items: req.body.items,
+            amount: req.body.amount,
+            address: req.body.address,
         })
         await newOrder.save();
-        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
+        await userModel.findOneAndUpdate({ clerkId: req.body.userId }, { cartData: {} });
         
         res.json({ success: true, orderId: newOrder._id });
     }
