@@ -16,9 +16,15 @@ a{
   color:inherit;
 }
 
-.app{
-  width: 80%;
+.app {
+  width: 100%;
   margin: auto;
+}
+
+@media (min-width: 768px) {
+  .app {
+    width: 80%;
+  }
 }
 
 @keyframes fadeIn{

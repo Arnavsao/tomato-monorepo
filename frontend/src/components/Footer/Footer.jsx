@@ -3,47 +3,47 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className='text-[#d9d9d9] bg-[#323232] flex flex-col items-center gap-5 py-5 px-[8vw] pt-20 mt-[100px]'>
-        <div className='lg:w-[93%] mx-auto'>
-<div className="flex justify-between gap-5 w-full mb-10">
+    <div className='text-[#d9d9d9] bg-[#323232] flex flex-col items-center gap-5 py-5 px-[4vw] sm:px-[8vw] pt-10 sm:pt-20 '>
+        <div className='lg:w-[93%] mx-auto w-full'>
+<div className="flex justify-between gap-5 w-full mb-5 sm:mb-10">
                 <img src={assets.logo} alt="" />
             </div>
-        <div className="w-full flex flex-col md:flex-row gap-15 mb-10">
-            <div className="flex flex-col items-start gap-5 w-full">
+        <div className="w-full flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row gap-8 md:gap-6 lg:gap-15 mb-5 md:mb-10">
+            <div className="flex flex-col items-start gap-3 md:gap-4 lg:gap-5 w-full">
                 <h2 className="text-white font-bold">MENU</h2>
                 <ul className="list-none font-light">
-                    <li className="mb-2.5"><Link to="/">Home</Link></li>
-                    <li className="mb-2.5"><Link to="/about-us">About us</Link></li>
-                    <li className="mb-2.5"><Link to="/delivery">Delivery</Link></li>
-                    <li className="mb-2.5"><Link to="/contact-us">Contact Us</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/">Home</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/about-us">About us</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/delivery">Delivery</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/contact-us">Contact Us</Link></li>
                 </ul>   
             </div>
-            <div className="flex flex-col items-start gap-5 w-full">
+            <div className="flex flex-col items-start gap-3 md:gap-4 lg:gap-5 w-full">
                 <h2 className="text-white font-bold">POLICIES</h2>
                 <ul className="list-none font-light">
-                    <li className="mb-2.5"><Link to="/privacy-policy">Privacy Policy</Link></li>
-                    <li className="mb-2.5"><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
-                    <li className="mb-2.5"><Link to="/refund-policy">Refund & Cancellation Policy</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/privacy-policy">Privacy Policy</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
+                    <li className="mb-2 sm:mb-2.5"><Link to="/refund-policy">Refund & Cancellation Policy</Link></li>
                 </ul>
             </div>
-            <div className="flex flex-col items-start gap-5 w-full">
+            <div className="flex flex-col items-start gap-3 md:gap-4 lg:gap-5 w-full">
                 <h2 className="text-white font-bold">GET IN TOUCH</h2>
                 <ul className="list-none font-light">
-                    <li className="mb-2.5">+1-212-456-9787</li>
-                    <li className="mb-2.5">contact@totmato.com</li>
+                    <li className="mb-2 sm:mb-2.5">+1-212-456-9787</li>
+                    <li className="mb-2 sm:mb-2.5"> <a href="mailto:contact@totmato.com">contact@totmato.com</a></li>
                 </ul>
             </div>
-            <div className="flex flex-col items-start gap-5 w-full">
+            <div className="flex flex-col items-start gap-3 md:gap-4 lg:gap-5 w-full">
                 <h2 className="text-white font-bold">Social Media</h2>
                 <div className="flex gap-2">
-                    <img src={assets.facebook_icon} alt="" className='w-10 mr-4' />
-                    <img src={assets.twitter_icon} alt="" className='w-10 mr-4' />
-                    <img src={assets.linkedin_icon} alt="" className='w-10 mr-4' />
+                    <img src={assets.facebook_icon} alt="" className='w-8 sm:w-9 lg:w-10 mr-3 sm:mr-3 lg:mr-4' />
+                    <img src={assets.twitter_icon} alt="" className='w-8 sm:w-9 lg:w-10 mr-3 sm:mr-3 lg:mr-4' />
+                    <img src={assets.linkedin_icon} alt="" className='w-8 sm:w-9 lg:w-10 mr-3 sm:mr-3 lg:mr-4' />
                 </div>
             </div>
         </div>
-        <hr className="w-full h-0.5 my-5 bg-gray-500 border-none" />
-        <p className="md:text-center text-sm m-10">Copyright 2024 @ Tomato.com - All Right Reserverd.</p>
+        <hr className="w-full h-0.5 my-3 sm:my-4 lg:my-5 bg-gray-500 border-none" />
+        <p className="sm:text-center text-sm m-5 sm:m-8 lg:m-10">Copyright 2024 @ Tomato.com - All Right Reserverd.</p>
     </div>
         </div>
         

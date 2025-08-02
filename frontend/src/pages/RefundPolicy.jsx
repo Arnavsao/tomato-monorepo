@@ -11,12 +11,12 @@ const RefundPolicy = () => (
     </div>
 
     {/* Main Content */}
-    <div className="max-w-4xl mx-auto px-6 py-16">
+    <div className="max-w-4xl mx-auto md:px-6 py-16 px-2">
       {/* Overview */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Commitment to You</h2>
         <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-          At Tomato, we strive to provide the best possible service and ensure your complete satisfaction with every order. We understand that sometimes things don't go as planned, and we're here to help when they don't.
+          At Tomato, we strive to provide the best possible service and ensure your complete satisfaction with every order. We understand that sometimes things don&apos;t go as planned, and we&apos;re here to help when they don&apos;t.
         </p>
         <p className="text-lg text-gray-600 leading-relaxed">
           This policy outlines our refund and cancellation procedures to ensure transparency and fairness for all our customers.
@@ -25,8 +25,8 @@ const RefundPolicy = () => (
 
       {/* Key Points */}
       <div className="grid md:grid-cols-2 gap-8 mb-12">
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">⏰</span>
             </div>
@@ -38,8 +38,8 @@ const RefundPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">💰</span>
             </div>
@@ -51,8 +51,8 @@ const RefundPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">📞</span>
             </div>
@@ -64,8 +64,8 @@ const RefundPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">✅</span>
             </div>
@@ -80,13 +80,13 @@ const RefundPolicy = () => (
       </div>
 
       {/* Cancellation Policy */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">Cancellation Policy</h2>
         <div className="space-y-6">
           <div className="border-l-4 border-green-500 pl-6">
             <h3 className="text-xl font-bold text-gray-800 mb-2">✅ Can Cancel</h3>
             <p className="text-gray-600">
-              Orders that haven't started preparation yet can be cancelled immediately through the app or by contacting support.
+              Orders that haven&apos;t started preparation yet can be cancelled immediately through the app or by contacting support.
             </p>
           </div>
           <div className="border-l-4 border-red-500 pl-6">
@@ -105,7 +105,7 @@ const RefundPolicy = () => (
       </div>
 
       {/* Refund Scenarios */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">When Refunds Are Available</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
@@ -146,10 +146,10 @@ const RefundPolicy = () => (
       </div>
 
       {/* Contact Section */}
-      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-12 text-white">
+        <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl text-white py-12 px-3 md:px-12 md:py-16 mb-12 shadow-xl shadow-orange-500/20 md:shadow-none md:rounded-3xl md:mb-20 ">
         <h2 className="text-3xl font-bold mb-4">Need Help with Your Order?</h2>
         <p className="text-xl opacity-90 mb-8">
-          If you have any issues with your order or need to request a refund, please contact our support team immediately. We're here to help ensure your satisfaction.
+          If you have any issues with your order or need to request a refund, please contact our support team immediately. We&apos;re here to help ensure your satisfaction.
         </p>
         <button className="bg-white text-orange-500 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
           Contact Support

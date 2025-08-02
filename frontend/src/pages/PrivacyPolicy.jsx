@@ -11,9 +11,9 @@ const PrivacyPolicy = () => (
     </div>
 
     {/* Main Content */}
-    <div className="max-w-4xl mx-auto px-6 py-16">
+    <div className="max-w-4xl mx-auto md:px-6 py-16 px-2">
       {/* Introduction */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-6 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Your Privacy Matters</h2>
         <p className="text-lg text-gray-600 mb-6 leading-relaxed">
           At Tomato, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our food ordering service.
@@ -25,8 +25,8 @@ const PrivacyPolicy = () => (
 
       {/* Key Points */}
       <div className="grid md:grid-cols-2 gap-8 mb-12">
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">🔒</span>
             </div>
@@ -38,8 +38,8 @@ const PrivacyPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">📋</span>
             </div>
@@ -51,8 +51,8 @@ const PrivacyPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">🎯</span>
             </div>
@@ -64,8 +64,8 @@ const PrivacyPolicy = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-xl">🤝</span>
             </div>
@@ -80,7 +80,7 @@ const PrivacyPolicy = () => (
       </div>
 
       {/* Detailed Information */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">What Information We Collect</h2>
         <div className="space-y-6">
           <div className="border-l-4 border-orange-500 pl-6">
@@ -105,7 +105,7 @@ const PrivacyPolicy = () => (
       </div>
 
       {/* Your Rights */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">Your Rights</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
@@ -146,7 +146,7 @@ const PrivacyPolicy = () => (
       </div>
 
       {/* Contact Section */}
-      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-12 text-white">
+      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl text-white py-12 px-3 md:px-12 md:py-16 mb-12 shadow-xl shadow-orange-500/20 md:shadow-none md:rounded-3xl md:mb-20 ">
         <h2 className="text-3xl font-bold mb-4">Questions About Privacy?</h2>
         <p className="text-xl opacity-90 mb-8">
           If you have any questions about this Privacy Policy or how we handle your data, please contact our privacy team.
