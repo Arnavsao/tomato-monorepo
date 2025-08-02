@@ -1,4 +1,9 @@
-const AboutUs = () => (
+import { useNavigate } from 'react-router-dom';
+
+const AboutUs = () => {
+  const navigate = useNavigate();
+
+  return (
   <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
     {/* Hero Section */}
     <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white py-20">
@@ -11,7 +16,7 @@ const AboutUs = () => (
     </div>
 
     {/* Main Content */}
-    <div className="max-w-6xl mx-auto px-6 py-16">
+    <div className="max-w-6xl mx-auto px-3 py-12 md:py-16 md:px-6">
       {/* Mission Section */}
       <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
         <div>
@@ -23,7 +28,7 @@ const AboutUs = () => (
             Our mission is to make food delivery in Bengaluru seamless, reliable, and delightful. We&apos;re not just delivering food; we&apos;re delivering the authentic flavors of the Garden City.
           </p>
         </div>
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl shadow-xl px-3 py-6 md:px-8 md:py-8">
           <div className="text-center">
             <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-3xl">🍕</span>
@@ -38,7 +43,7 @@ const AboutUs = () => (
       <div className="mb-20">
         <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">What Drives Us</h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+          <div className="bg-white rounded-xl shadow-lg px-3 py-6 md:px-8 md:py-8 text-center hover:shadow-xl transition-shadow">
             <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-2xl">🚀</span>
             </div>
@@ -47,7 +52,7 @@ const AboutUs = () => (
               We focus on Bengaluru&apos;s unique food culture, supporting local restaurants and bringing authentic flavors to your table.
             </p>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+          <div className="bg-white rounded-xl shadow-lg px-3 py-6 md:px-8 md:py-8 text-center hover:shadow-xl transition-shadow">
             <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-2xl">🤝</span>
             </div>
@@ -56,7 +61,7 @@ const AboutUs = () => (
               Building strong relationships with Bengaluru&apos;s restaurant community and supporting local businesses.
             </p>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+          <div className="bg-white rounded-xl shadow-lg px-3 py-6 md:px-8 md:py-8 text-center hover:shadow-xl transition-shadow">
             <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-2xl">⭐</span>
             </div>
@@ -69,7 +74,7 @@ const AboutUs = () => (
       </div>
 
       {/* Story Section */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-20">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-20">
         <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">Our Story</h2>
         <div className="grid md:grid-cols-2 gap-12">
           <div>
@@ -94,17 +99,18 @@ const AboutUs = () => (
       </div>
 
       {/* CTA Section */}
-      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-12 text-white">
+        <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl text-white py-12 px-3 md:px-12 md:py-16 mb-12 shadow-xl shadow-orange-500/20 md:shadow-none md:rounded-3xl md:mb-20 ">
         <h2 className="text-3xl font-bold mb-4">Ready to Experience Bengaluru&apos;s Flavors?</h2>
         <p className="text-xl opacity-90 mb-8">
           Join the growing community of Bengaluru residents who trust Tomato for their food delivery needs.
         </p>
-        <button className="bg-white text-orange-500 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
+        <button onClick={() => navigate('/')} className="bg-white text-orange-500 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
           Start Ordering Now
         </button>
       </div>
     </div>
   </div>
-);
+  );
+};
 
-export default AboutUs; 
+export default AboutUs;

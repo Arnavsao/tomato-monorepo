@@ -67,11 +67,11 @@ const ContactUs = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className="max-w-6xl mx-auto px-3 py-12 md:py-16 md:px-6">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Contact Form */}
           <div className="md:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="bg-white rounded-2xl shadow-xl px-3 py-6 md:px-8 md:py-8">
               <h2 className="text-3xl font-bold text-gray-800 mb-8">How can we help you?</h2>
               
               {submitStatus === 'success' && (
