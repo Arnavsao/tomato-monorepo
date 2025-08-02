@@ -45,7 +45,7 @@ const PlaceOrder = () => {
   };
 
   return (
-    <form className="flex items-start justify-between gap-[50px] mt-[100px]">
+    <form className="flex items-start flex-col md:flex-row justify-between gap-[50px] mt-10 md:mt-32  px-3 mb-20 md:mb-32 lg:px-20 ">
       <div className="w-full max-w-[max(30%,500px)]">
         <p className="text-3xl font-semibold mb-[50px]">Delivery Information</p>
         <div className="flex gap-2.5">

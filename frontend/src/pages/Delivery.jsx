@@ -11,24 +11,24 @@ const Delivery = () => (
     </div>
 
     {/* Main Content */}
-    <div className="max-w-6xl mx-auto px-6 py-16">
+    <div className="max-w-6xl mx-auto md:px-6 py-16 px-3">
       {/* Delivery Stats */}
       <div className="grid md:grid-cols-3 gap-8 mb-16">
-        <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12 text-center">
           <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-2xl">⚡</span>
           </div>
           <h3 className="text-2xl font-bold text-gray-800 mb-2">30-45 min</h3>
           <p className="text-gray-600">Average Delivery Time</p>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12 text-center">
           <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-2xl">🌍</span>
           </div>
           <h3 className="text-2xl font-bold text-gray-800 mb-2">Bengaluru</h3>
           <p className="text-gray-600">Currently Serving</p>
         </div>
-        <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12 text-center">
           <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-2xl">🚚</span>
           </div>
@@ -41,8 +41,8 @@ const Delivery = () => (
       <div className="mb-16">
         <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Why Choose Our Delivery?</h2>
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex items-start gap-4">
+          <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-start gap-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">📍</span>
               </div>
@@ -54,8 +54,8 @@ const Delivery = () => (
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex items-start gap-4">
+          <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-start gap-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">⏰</span>
               </div>
@@ -67,8 +67,8 @@ const Delivery = () => (
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex items-start gap-4">
+          <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-start gap-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">💰</span>
               </div>
@@ -80,8 +80,8 @@ const Delivery = () => (
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex items-start gap-4">
+          <div className="bg-white rounded-xl shadow-lg px-4 py-8 md:px-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-start gap-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">📱</span>
               </div>
@@ -97,7 +97,7 @@ const Delivery = () => (
       </div>
 
       {/* Delivery Process */}
-      <div className="bg-white rounded-2xl shadow-xl p-12 mb-16">
+      <div className="bg-white rounded-2xl shadow-xl md:px-12 py-12 px-3 mb-16">
         <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">How It Works</h2>
         <div className="grid md:grid-cols-4 gap-8">
           <div className="text-center">
@@ -140,7 +140,7 @@ const Delivery = () => (
       </div>
 
       {/* Support Section */}
-      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-12 text-white">
+      <div className="text-center bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl text-white py-12 px-3 md:px-12 md:py-16 mb-12 shadow-xl shadow-orange-500/20 md:shadow-none md:rounded-3xl md:mb-20 ">
         <h2 className="text-3xl font-bold mb-4">Need Help with Delivery?</h2>
         <p className="text-xl opacity-90 mb-8">
           For any delivery-related questions or concerns, please contact our customer support team. We are here to ensure your delivery experience is smooth and satisfying.

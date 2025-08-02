@@ -46,9 +46,9 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
   };
 
   return (
-    <div className='py-5 flex justify-between items-center'>
+    <div className='py-5 flex justify-between items-center px-3'>
       <Link to="/" onClick={handleHomeClick}>
-        <img src={assets.logo} alt="Logo" className='w-[150px] lg:w-[150px] md:w-[140px] sm:w-[120px]' />
+        <img src={assets.logo} alt="Logo" className='w-[100px] lg:w-[150px] md:w-[130px] sm:w-[150px]' />
       </Link>
       
       <ul className='hidden md:flex list-none gap-5 text-[#49557e] text-lg md:text-lg sm:text-base md:gap-5 sm:gap-4'>
@@ -89,7 +89,7 @@ const Navbar = ({ setShowLogin, setShowProfileSettings }) => {
         {!isSignedIn ? (
           <button 
             onClick={() => setShowLogin(true)}
-            className='bg-transparent text-base text-[#49557e] border border-tomato py-2.5 px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
+            className='bg-transparent text-base text-[#49557e] border border-tomato py-1 px-2 md:py-2.5 md:px-8 rounded-[50px] cursor-pointer transition-all duration-300 hover:bg-[#fff4f2]'
           >
             sign in
           </button>

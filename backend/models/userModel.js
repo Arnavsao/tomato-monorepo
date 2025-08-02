@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     clerkId: { type: String, required: true, unique: true },
     name: { type: String, required: true },
+    profilePicture: { type: String, default: "" },
     email: { type: String, required: true },
     password: { type: String, required: false }, // Optional since we're using Clerk
     profilePicture: { type: String, default: "" },

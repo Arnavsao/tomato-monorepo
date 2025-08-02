@@ -8,8 +8,8 @@ function Cart() {
   const navigate = useNavigate();
 
   return (
-    <div className="mt-[100px]">
-      <div className="flex flex-col gap-2.5">
+    <div className="mt-10 md:mt-32 px-3 mb-20 md:mb-10 lg:mb-20">
+      <div className="flex flex-col">
         <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_0.5fr] items-center text-gray-500 text-[max(1vw,12px)] p-2.5 border-b border-[#e2e2e2]">
           <p>Items</p>
           <p>Title</p>
