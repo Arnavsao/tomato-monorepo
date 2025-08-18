@@ -38,6 +38,24 @@ const createOrGetUser = async (req, res) => {
         cartData: {} 
       });
       user = await newUser.save();
+      console.log(`✅ New user created: ${userId}`);
+    } else {
+      console.log(`✅ Existing user found: ${userId}`);
+      
+      // Update user info if it has changed
+      const hasChanges = (
+        user.name !== (name || "User") ||
+        user.email !== (email || "") ||
+        user.profilePicture !== (profilePicture || "")
+      );
+      
+      if (hasChanges) {
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.profilePicture = profilePicture || user.profilePicture;
+        user = await user.save();
+        console.log(`✅ User updated: ${userId}`);
+      }
     }
 
     res.json({ 
@@ -51,8 +69,47 @@ const createOrGetUser = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server error." });
+    console.error("❌ Error in createOrGetUser:", error);
+    
+    // Handle specific MongoDB errors
+    if (error.code === 11000) {
+      // User already exists (duplicate key), try to fetch existing user
+      try {
+        const existingUser = await userModel.findOne({ clerkId: userId });
+        if (existingUser) {
+          console.log(`✅ Found existing user after duplicate key error: ${userId}`);
+          return res.json({ 
+            success: true, 
+            user: {
+              id: existingUser._id,
+              clerkId: existingUser.clerkId,
+              name: existingUser.name,
+              email: existingUser.email,
+              profilePicture: existingUser.profilePicture
+            }
+          });
+        }
+      } catch (fetchError) {
+        console.error("❌ Error fetching existing user:", fetchError);
+      }
+      
+      return res.status(409).json({ 
+        success: false, 
+        message: "User already exists with this ID." 
+      });
+    }
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid user data provided." 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal server error. Please try again later." 
+    });
   }
 };
 
@@ -62,6 +119,10 @@ const updateProfile = async (req, res) => {
   const userId = req.body.userId; // From Clerk middleware
 
   try {
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required." });
+    }
+
     const updateData = {};
     if (name) updateData.name = name;
     if (profilePicture) updateData.profilePicture = profilePicture;
@@ -88,8 +149,11 @@ const updateProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server error." });
+    console.error("❌ Error in updateProfile:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal server error. Please try again later." 
+    });
   }
 };
 
@@ -98,9 +162,16 @@ const getUserProfile = async (req, res) => {
   const userId = req.body.userId; // From Clerk middleware
 
   try {
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required." });
+    }
+
     const user = await userModel.findOne({ clerkId: userId }).select('-password');
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res.status(404).json({ 
+        success: false, 
+        message: "User profile not found. Please create a profile first." 
+      });
     }
 
     res.json({ 
@@ -114,8 +185,11 @@ const getUserProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server error." });
+    console.error("❌ Error in getUserProfile:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal server error. Please try again later." 
+    });
   }
 };
 
