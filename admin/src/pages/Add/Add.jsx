@@ -32,7 +32,9 @@ const Add = ({ url }) => {
         formData.append('image', image);
 
         try {
-            const response = await axios.post(`${url}/api/food/add`, formData);
+            const response = await axios.post(`${url}/api/food/add`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
             if (response.data.success) {
                 setSuccess(true);
                 // Clear form data except for the category
@@ -50,7 +52,9 @@ const Add = ({ url }) => {
             }
         } catch (error) {
             setSuccess(false);
+            const message = error?.response?.data?.message || 'Error submitting form';
             console.error('Error submitting form:', error);
+            toast.error(message);
         }
     };
 

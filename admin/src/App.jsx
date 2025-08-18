@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   
-  const url = "https://tomato-backend-weqp.onrender.com"
+  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000"
 
   return (
     <div>
