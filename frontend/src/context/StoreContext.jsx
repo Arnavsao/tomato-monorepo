@@ -20,6 +20,30 @@ const StoreContextProvider = (props) => {
     const { getToken } = useAuth();
     const { user, isSignedIn } = useUser();
 
+    // Test authentication function for debugging
+    const testAuth = async () => {
+        if (!isSignedIn || !user) {
+            console.log("🚫 User not signed in, cannot test auth");
+            return;
+        }
+
+        try {
+            const token = await getToken();
+            if (token) {
+                console.log("🔍 Testing auth with token:", token.substring(0, 50) + "...");
+                
+                const response = await axios.post(`${url}/api/test-auth`, {}, {
+                    headers: { authorization: `Bearer ${token}` }
+                });
+                
+                console.log("🧪 Auth test response:", response.data);
+                return response.data;
+            }
+        } catch (error) {
+            console.error("❌ Error testing auth:", error);
+        }
+    };
+
     // Create or get user from Clerk session
     const createOrGetUser = async () => {
         if (!isSignedIn || !user) {
@@ -31,8 +55,8 @@ const StoreContextProvider = (props) => {
             setIsLoading(true);
             const token = await getToken();
             if (token) {
+                // Don't send userId in body - it will come from auth middleware
                 const response = await axios.post(`${url}/api/user/create`, {
-                    userId: user.id,
                     name: user.fullName || user.firstName || "User",
                     email: user.primaryEmailAddress?.emailAddress || "",
                     profilePicture: user.imageUrl || ""
@@ -173,14 +197,17 @@ const StoreContextProvider = (props) => {
                 }
             }
         } catch (error) {
-            console.error("❌ Error loading cart data:", error);
-            
             // Handle specific error cases
             if (error.response?.status === 401) {
-                console.log("User not authenticated, cart will be empty");
+                console.log("❌ User not authenticated, cart will be empty");
                 setCartItems({});
                 // Don't call createOrGetUser here to avoid loops
+            } else if (error.response?.status === 404) {
+                // This is normal for new users - they don't have a cart yet
+                console.log("ℹ️ No cart found (normal for new users), setting empty cart");
+                setCartItems({});
             } else {
+                console.error("❌ Error loading cart data:", error);
                 toast.error("Failed to load cart. Please refresh the page.");
             }
         }
@@ -205,17 +232,17 @@ const StoreContextProvider = (props) => {
                 }
             }
         } catch (error) {
-            console.error("❌ Error loading user profile:", error);
-            
             // Handle specific error cases
             if (error.response?.status === 401) {
-                console.log("User not authenticated, profile will be empty");
+                console.log("❌ User not authenticated, profile will be empty");
                 setUserProfile(null);
                 // Don't call createOrGetUser here to avoid loops
             } else if (error.response?.status === 404) {
-                console.log("User profile not found, will create on next auth attempt");
+                // This is normal for new users - profile is created after this call
+                console.log("ℹ️ Profile not found (normal for new users), will be created shortly");
                 setUserProfile(null);
             } else {
+                console.error("❌ Error loading user profile:", error);
                 toast.error("Failed to load profile. Please refresh the page.");
             }
         }
@@ -317,7 +344,8 @@ const StoreContextProvider = (props) => {
         loadUserProfile,
         isSignedIn,
         isLoading,
-        authAttempted
+        authAttempted,
+        testAuth // Add test function for debugging
     };
 
     return (

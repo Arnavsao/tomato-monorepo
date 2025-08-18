@@ -1,12 +1,20 @@
+import 'dotenv/config'
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
-import 'dotenv/config'
 import orderRouter from "./routes/orderRoute.js";
 import contactRouter from "./routes/contactRoute.js";
+
+// Debug environment variables
+console.log("🔍 Environment Check:");
+console.log("📝 NODE_ENV:", process.env.NODE_ENV);
+console.log("📝 PORT:", process.env.PORT);
+console.log("📝 MONGODB_URI:", process.env.MONGODB_URI ? "✅ Set" : "❌ Missing");
+console.log("📝 CLERK_JWT_KEY:", process.env.CLERK_JWT_KEY ? "✅ Set" : "❌ Missing");
+console.log("📝 CLERK_ISSUER_URL:", process.env.CLERK_ISSUER_URL ? "✅ Set" : "❌ Missing");
 
 // App setup
 const app = express();
@@ -31,6 +39,57 @@ app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter)
 app.use("/api", contactRouter)
+
+// Test authentication endpoint
+app.post("/api/test-auth", async (req, res) => {
+    const { authorization } = req.headers;
+    
+    console.log("🧪 Test auth endpoint called");
+    console.log("📝 Authorization header:", authorization);
+    
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+        return res.json({ 
+            success: false, 
+            message: "No authorization header",
+            hasAuth: false
+        });
+    }
+    
+    const token = authorization.replace('Bearer ', '');
+    console.log("🔍 Token received:", token.substring(0, 50) + "...");
+    
+    try {
+        // Try to decode as JWT first
+        const tokenParts = token.split('.');
+        if (tokenParts.length === 3) {
+            const payload = JSON.parse(Buffer.from(tokenParts[1], 'base64').toString());
+            console.log("✅ Token decoded as JWT:", payload);
+            return res.json({
+                success: true,
+                message: "Token decoded successfully",
+                hasAuth: true,
+                tokenType: "JWT",
+                payload: payload
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: "Token doesn't look like JWT",
+                hasAuth: false,
+                tokenType: "Unknown",
+                tokenLength: token.length
+            });
+        }
+    } catch (error) {
+        console.error("❌ Error decoding token:", error);
+        return res.json({
+            success: false,
+            message: "Error decoding token",
+            hasAuth: false,
+            error: error.message
+        });
+    }
+});
 
 // Test route
 app.get("/", (req, res) => {

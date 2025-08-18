@@ -14,6 +14,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import Delivery from './pages/Delivery';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import AuthDebugger from './components/AuthDebugger';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -41,10 +42,11 @@ const App = () => {
           <Route path='/delivery' element={<Delivery />} />
           <Route path='/about-us' element={<AboutUs />} />
           <Route path='/contact-us' element={<ContactUs />} />
-
         </Routes>
       </div>
       <Footer />
+      {/* Debug component - remove in production */}
+      {/* <AuthDebugger /> */}
     </>
   );
 }

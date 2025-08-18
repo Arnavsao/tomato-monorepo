@@ -4,7 +4,8 @@ import authMiddleware from "../middleware/auth.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/create", createOrGetUser);
+// Apply auth middleware to all routes to get user information
+userRouter.post("/create", authMiddleware, createOrGetUser);
 userRouter.put("/profile", authMiddleware, updateProfile);
 userRouter.get("/profile", authMiddleware, getUserProfile);
 

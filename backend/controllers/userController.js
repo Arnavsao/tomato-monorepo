@@ -18,12 +18,19 @@ const isValidEmailDomain = async (email) => {
 
 // 🔹 Create or Get User from Clerk Session
 const createOrGetUser = async (req, res) => {
-  const { userId, name, email, profilePicture } = req.body;
+  // Get userId from auth middleware (req.body.userId) or fallback to request body
+  const userId = req.body.userId || req.body.clerkId;
+  const { name, email, profilePicture } = req.body;
 
   try {
     if (!userId) {
+      console.log('❌ No user ID provided in createOrGetUser');
+      console.log('📝 Request body:', req.body);
+      console.log('👤 User from middleware:', req.user);
       return res.status(400).json({ success: false, message: "User ID is required." });
     }
+
+    console.log(`🔍 Creating/getting user with ID: ${userId}`);
 
     // Check if user already exists
     let user = await userModel.findOne({ clerkId: userId });

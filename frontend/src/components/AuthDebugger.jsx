@@ -1,56 +1,33 @@
-import React from 'react';
-import { useAuth, useUser } from '@clerk/clerk-react';
+import React, { useContext } from 'react';
+import { StoreContext } from '../context/StoreContext.jsx';
+import { useUser } from '@clerk/clerk-react';
 
 const AuthDebugger = () => {
-    const { getToken } = useAuth();
-    const { user, isSignedIn, isLoaded } = useUser();
+    const { user, isSignedIn } = useUser();
+    const { testAuth, userProfile, cartItems, authAttempted } = useContext(StoreContext);
 
-    const [token, setToken] = React.useState(null);
-    const [tokenError, setTokenError] = React.useState(null);
-
-    const checkToken = async () => {
-        try {
-            const token = await getToken();
-            setToken(token);
-            setTokenError(null);
-        } catch (error) {
-            setTokenError(error.message);
-            setToken(null);
-        }
+    const handleTestAuth = async () => {
+        console.log('🧪 Testing authentication...');
+        const result = await testAuth();
+        console.log('🧪 Test result:', result);
     };
 
-    React.useEffect(() => {
-        if (isSignedIn) {
-            checkToken();
-        }
-    }, [isSignedIn]);
-
-    if (!isLoaded) {
-        return <div>Loading Clerk...</div>;
-    }
-
     return (
-        <div style={{ 
-            position: 'fixed', 
-            top: '10px', 
-            right: '10px', 
-            background: '#f0f0f0', 
-            padding: '10px', 
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-            fontSize: '12px',
-            maxWidth: '300px',
-            zIndex: 1000
-        }}>
-            <h4>🔐 Auth Debugger</h4>
-            <div><strong>Is Loaded:</strong> {isLoaded ? '✅' : '❌'}</div>
-            <div><strong>Is Signed In:</strong> {isSignedIn ? '✅' : '❌'}</div>
-            <div><strong>User ID:</strong> {user?.id || 'None'}</div>
-            <div><strong>User Name:</strong> {user?.fullName || 'None'}</div>
-            <div><strong>User Email:</strong> {user?.primaryEmailAddress?.emailAddress || 'None'}</div>
-            <div><strong>Token:</strong> {token ? `${token.substring(0, 20)}...` : 'None'}</div>
-            {tokenError && <div><strong>Token Error:</strong> {tokenError}</div>}
-            <button onClick={checkToken} style={{ marginTop: '5px' }}>Refresh Token</button>
+        <div className="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg border max-w-sm z-50">
+            <h3 className="font-bold text-sm mb-2">🔐 Auth Debugger</h3>
+            <div className="text-xs space-y-1">
+                <div>Status: {isSignedIn ? '✅ Signed In' : '❌ Not Signed In'}</div>
+                {user && <div>User ID: {user.id}</div>}
+                {userProfile && <div>Profile: ✅ Loaded</div>}
+                <div>Cart Items: {Object.keys(cartItems).length}</div>
+                <div>Auth Attempted: {authAttempted ? '✅ Yes' : '❌ No'}</div>
+            </div>
+            <button 
+                onClick={handleTestAuth}
+                className="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+            >
+                Test Auth
+            </button>
         </div>
     );
 };
