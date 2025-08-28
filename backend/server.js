@@ -13,7 +13,7 @@ import contactRouter from "./routes/contactRoute.js";
 
 // App setup
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 // Middleware setup
 app.use(express.json()); // For parsing application/json

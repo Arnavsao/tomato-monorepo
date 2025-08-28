@@ -16,10 +16,7 @@ export const connectDB = async () => {
       process.exit(1);
     }
 
-    await mongoose.connect(mongoDbUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoDbUri);
     console.log("DB Connected");
   } catch (error) {
     console.error("DB Connection Failed:", error.message);

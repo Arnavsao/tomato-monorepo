@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "server": "nodemon server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "build": "echo 'No build process required for this backend'"
   },
   "author": "",
   "license": "ISC",
