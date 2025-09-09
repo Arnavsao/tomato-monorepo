@@ -25,13 +25,16 @@ export const ENVIRONMENTS = {
   // }
 };
 
+// Prefer explicit Vite env override if provided
+const viteBackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 // Get current environment
 const isDevelopment = import.meta.env.DEV;
 const currentEnv = isDevelopment ? 'development' : 'production';
 
-// Export current environment config
+// Resolve backend URL with override > env default
 export const CURRENT_ENV = ENVIRONMENTS[currentEnv];
-export const BACKEND_URL = CURRENT_ENV.backendUrl;
+export const BACKEND_URL = viteBackendUrl || CURRENT_ENV.backendUrl;
 
 console.log(`🚀 Running in ${CURRENT_ENV.name} mode`);
 console.log(`📡 Backend URL: ${BACKEND_URL}`); 
