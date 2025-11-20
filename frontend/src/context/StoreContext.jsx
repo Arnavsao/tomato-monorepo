@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState, useCallback } from 'react';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from '../config/api.js';
 import { useAuth, useUser } from '@clerk/clerk-react';
 
 // Create the context
+// eslint-disable-next-line react-refresh/only-export-components
 export const StoreContext = createContext(null);
 
 // Define the provider component
@@ -19,7 +20,7 @@ const StoreContextProvider = (props) => {
     const { user, isSignedIn } = useUser();
 
     // Create or get user from Clerk session
-    const createOrGetUser = async () => {
+    const createOrGetUser = useCallback(async () => {
         if (!isSignedIn || !user) return;
 
         try {
@@ -41,7 +42,7 @@ const StoreContextProvider = (props) => {
         } catch (error) {
             console.error("Error creating/getting user:", error);
         }
-    };
+    }, [isSignedIn, user, getToken, url]);
 
     // ✅ Fix: Prevent undefined item addition
     const addToCart = async (itemId) => {
@@ -106,7 +107,7 @@ const StoreContextProvider = (props) => {
     };
 
     // ✅ Fix: Correct API headers and handle undefined cart data
-    const loadCartData = async () => {
+    const loadCartData = useCallback(async () => {
         try {
             const token = await getToken();
             if (token) {
@@ -125,10 +126,10 @@ const StoreContextProvider = (props) => {
         } catch (error) {
             console.error("Error loading cart data:", error);
         }
-    };
+    }, [getToken, url]);
 
     // Load user profile
-    const loadUserProfile = async () => {
+    const loadUserProfile = useCallback(async () => {
         try {
             const token = await getToken();
             if (token) {
@@ -142,7 +143,7 @@ const StoreContextProvider = (props) => {
         } catch (error) {
             console.error("Error loading user profile:", error);
         }
-    };
+    }, [getToken, url]);
 
     // Update user profile
     const updateUserProfile = async (profileData) => {
@@ -177,14 +178,14 @@ const StoreContextProvider = (props) => {
     };
 
     // ✅ Fix: Add try-catch to prevent crashes
-    const fetchFoodList = async () => {
+    const fetchFoodList = useCallback(async () => {
         try {
             const response = await axios.get(`${url}/api/food/list`);
             setFoodlist(response.data.data);
         } catch (error) {
             console.error("Error fetching food list:", error);
         }
-    };
+    }, [url]);
 
     useEffect(() => {
         async function loadData() {
@@ -197,7 +198,7 @@ const StoreContextProvider = (props) => {
             }
         }
         loadData();
-    }, [isSignedIn, user]);
+    }, [isSignedIn, user, fetchFoodList, createOrGetUser, loadCartData, loadUserProfile]);
 
     const contextValue = {
         food_list,

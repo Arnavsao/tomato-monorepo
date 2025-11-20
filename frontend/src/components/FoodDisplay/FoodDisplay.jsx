@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useContext } from 'react';
 import FoodItem from '../FoodItem/FoodItem';
 import { StoreContext } from '../../context/StoreContext';

@@ -1,7 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useUser, SignOutButton } from '@clerk/clerk-react';
 import { assets } from '../../assets/assets';
 import { Link, useNavigate, useLocation } from 'react-router-dom';

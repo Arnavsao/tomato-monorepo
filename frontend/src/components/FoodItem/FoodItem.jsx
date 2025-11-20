@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useContext } from 'react';
 import { assets } from '../../assets/assets'; // Ensure this path is correct
 import { StoreContext } from '../../context/StoreContext';

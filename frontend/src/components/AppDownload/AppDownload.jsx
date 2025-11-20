@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { assets } from '../../assets/assets'
 
 const AppDownload = () => {
