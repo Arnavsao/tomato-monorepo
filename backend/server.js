@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
+import mongoose from "mongoose";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
@@ -13,10 +14,17 @@ import contactRouter from "./routes/contactRoute.js";
 
 // App setup
 const app = express();
-const port = process.env.PORT || 4000;
+
+// Environment detection: Use NODE_ENV if set, otherwise default to 'development'
+// In production deployments (Render, Heroku, etc.), NODE_ENV is typically set to 'production'
 const nodeEnv = process.env.NODE_ENV || 'development';
 
-// CORS configuration
+// Port configuration: Use PORT from environment (required in production) or default to 10000 for local
+// Production platforms (Render, Heroku) automatically set PORT
+const port = process.env.PORT || 10000;
+
+// CORS configuration: Use ALLOWED_ORIGINS from environment or default to localhost ports for development
+// In production, set ALLOWED_ORIGINS to your actual frontend and admin URLs
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
   : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173'];
@@ -39,8 +47,47 @@ app.use(cors({
 // Middleware setup
 app.use(express.json()); // For parsing application/json
 
-// Database connection
-connectDB();
+// Database connection and server startup
+// Ensure the server only starts after a successful DB connection to prevent
+// API requests from hitting the server before the database is ready.
+
+/**
+ * Initialize the server after connecting to MongoDB.
+ * Adds robust logging so issues are easier to diagnose in development/production.
+ */
+async function startServer() {
+  try {
+    await connectDB();
+
+    // Expose a lightweight health check endpoint for uptime checks and debugging
+    app.get("/api/health", (req, res) => {
+      const dbReadyState = mongoose.connection.readyState; // 0=disconnected,1=connected,2=connecting,3=disconnecting
+      res.json({
+        success: true,
+        status: "ok",
+        dbConnected: dbReadyState === 1,
+        dbState: dbReadyState,
+        env: nodeEnv,
+      });
+    });
+
+    app.listen(port, () => {
+      console.log(`🚀 Server started on port ${port}`);
+      console.log(`🌍 Environment: ${nodeEnv}`);
+      console.log(`🔗 Local URL: http://localhost:${port}`);
+      if (nodeEnv === 'production') {
+        console.log(`🌐 Production URL: ${process.env.BACKEND_URL || 'Not set'}`);
+      }
+    });
+  } catch (err) {
+    console.error("❌ Failed to start server:", err?.message || err);
+    console.error("Hint: Ensure MONGODB_URI is set in backend/.env and that your IP has access in MongoDB Atlas.");
+    process.exit(1);
+  }
+}
+
+// Kick off startup
+startServer();
 
 // API endpoint setup
 app.use("/api/food", foodRouter);
@@ -57,12 +104,4 @@ app.get("/", (req, res) => {
     res.send("API Working");
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`🚀 Server started on port ${port}`);
-    console.log(`🌍 Environment: ${nodeEnv}`);
-    console.log(`🔗 Local URL: http://localhost:${port}`);
-    if (nodeEnv === 'production') {
-        console.log(`🌐 Production URL: ${process.env.BACKEND_URL || 'Not set'}`);
-    }
-});
+// Note: app.listen is now called inside startServer() after DB connection

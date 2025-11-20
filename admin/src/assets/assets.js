@@ -14,4 +14,13 @@ export const assets ={
     parcel_icon
 }
 
+/**
+ * Backend URL Configuration
+ * 
+ * Uses VITE_BACKEND_URL from environment variables if set,
+ * otherwise defaults to localhost for local development.
+ * 
+ * Note: This is kept for backward compatibility.
+ * The main App.jsx component also defines this URL.
+ */
 export const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000'
