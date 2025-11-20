@@ -1,38 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
 
-*{
-  padding:0;
-  margin:0;
-  box-sizing: border-box;
-  font-family: outfit;
+@theme {
+  --font-family-outfit: 'Outfit', sans-serif;
+  --color-tomato: #ff6347;
+  --font-family-sans: var(--font-family-outfit);
 }
 
-body{
+/* Ensure Tailwind utilities are available */
+@layer utilities {
+  .text-tomato {
+    color: var(--color-tomato);
+  }
+  
+  .bg-tomato {
+    background-color: var(--color-tomato);
+  }
+  
+  .border-tomato {
+    border-color: var(--color-tomato);
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
   min-height: 100vh;
   background-color: #fcfcfc;
+  font-family: var(--font-family-outfit);
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
 
-hr{
+hr {
   border: none;
   height: 1px;
   background-color: #a9a9a9;
-}
-
-.app-content{
-  display: flex;
-}
-
-.flex-col{
-  display:flex;
-  flex-direction: column;
-  gap:10px
-}
-
-.cursor{
-  cursor: pointer;
 }
