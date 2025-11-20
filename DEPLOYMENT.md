@@ -135,8 +135,61 @@ npm run dev
 - Ensure frontend/admin URLs are included
 
 ### Database Connection
-- Verify `MONGODB_URI` format
-- Check network access in MongoDB Atlas
+
+#### MongoDB Atlas IP Whitelist Issue (Common on Render/Heroku)
+
+**Error:** `Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted.`
+
+**Solution:**
+
+1. **Go to MongoDB Atlas Dashboard:**
+   - Log in at https://cloud.mongodb.com
+   - Select your cluster
+   - Navigate to **Security** → **Network Access**
+
+2. **Add IP Address:**
+   - Click **"Add IP Address"**
+   - Choose one of these options:
+     - **Option A (Recommended for Production):** Click **"Allow Access from Anywhere"**
+       - This adds `0.0.0.0/0` to your whitelist
+       - Allows connections from any IP address
+       - ⚠️ **Security Note:** Only use this if your database has strong authentication
+     - **Option B (More Secure):** Add Render's specific IP addresses
+       - Render uses dynamic IPs, so this requires periodic updates
+       - Less practical for production deployments
+
+3. **Wait for Propagation:**
+   - MongoDB Atlas changes can take 1-2 minutes to propagate
+   - Wait before redeploying
+
+4. **Verify Connection String:**
+   - Ensure `MONGODB_URI` is set correctly in Render environment variables
+   - Format: `mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority`
+   - Make sure username/password are URL-encoded if they contain special characters
+
+5. **Check Database User Permissions:**
+   - Go to **Security** → **Database Access**
+   - Ensure your database user has proper permissions
+   - For production, use a user with read/write access to your database
+
+6. **Verify Cluster Status:**
+   - Check that your MongoDB Atlas cluster is running (not paused)
+   - Free tier clusters pause after inactivity
+   - Resume if necessary
+
+**Quick Fix Checklist:**
+- [ ] MongoDB Atlas Network Access allows `0.0.0.0/0` or Render IPs
+- [ ] `MONGODB_URI` is set in Render environment variables
+- [ ] Database user has correct permissions
+- [ ] Cluster is running (not paused)
+- [ ] Waited 1-2 minutes after IP whitelist changes
+- [ ] Redeployed application after changes
+
+**Additional Troubleshooting:**
+- Verify `MONGODB_URI` format is correct
+- Check MongoDB Atlas cluster logs for connection attempts
+- Ensure connection string includes database name
+- Test connection string locally before deploying
 
 ### Clerk Authentication
 - Use test keys for development
