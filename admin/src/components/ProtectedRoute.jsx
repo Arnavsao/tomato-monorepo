@@ -7,6 +7,7 @@
 import { useAuth } from '@clerk/clerk-react';
 import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './ProtectedRoute.css';
 
 const ProtectedRoute = ({ children }) => {
   const { isSignedIn, isLoaded } = useAuth();
@@ -14,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
   // Show loading while checking authentication
   if (!isLoaded) {
     return (
-      <div className="flex justify-center items-center h-screen text-lg text-gray-600">
+      <div className="protected-route-loading">
         Loading...
       </div>
     );

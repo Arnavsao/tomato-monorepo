@@ -10,6 +10,7 @@ import Login from './pages/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 /**
  * Admin Panel Application Component
@@ -36,27 +37,27 @@ const App = () => {
           path="/*"
           element={
             <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
-                <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-                  <main className="flex-1 overflow-y-auto">
-                    <div className="p-8">
-          <Routes>
+              <div className="app-container">
+                <Navbar />
+                <div className="app-main-layout">
+                  <Sidebar />
+                  <main className="app-main-content">
+                    <div className="app-main-content-wrapper">
+                      <Routes>
                         <Route path="/" element={<Navigate to="/add" replace />} />
-            <Route path="/add" element={<Add url={url} />} />
-            <Route path="/list" element={<List url={url} />} />
-            <Route path="/orders" element={<Orders url={url} />} />
-            <Route path="*" element={
-                          <div className="text-center py-20">
-                            <h2 className="text-2xl font-semibold text-tomato">Page Not Found</h2>
-              </div>
-            } />
-          </Routes>
+                        <Route path="/add" element={<Add url={url} />} />
+                        <Route path="/list" element={<List url={url} />} />
+                        <Route path="/orders" element={<Orders url={url} />} />
+                        <Route path="*" element={
+                          <div className="app-not-found">
+                            <h2 className="app-not-found-title">Page Not Found</h2>
+                          </div>
+                        } />
+                      </Routes>
                     </div>
                   </main>
-        </div>
-      </div>
+                </div>
+              </div>
             </ProtectedRoute>
           }
         />

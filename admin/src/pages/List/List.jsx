@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import './List.css';
 
 const List = ({url}) => {
   
@@ -39,44 +40,44 @@ const List = ({url}) => {
       fetchList();
     },[fetchList])  
   return (
-    <div className='max-w-7xl mx-auto'>
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">All Food List</h1>
+    <div className='list-container'>
+      <div className="list-card">
+        <h1 className="list-title">All Food List</h1>
         
-        <div className='overflow-x-auto'>
+        <div className='list-table-wrapper'>
           {/* Table Header - Desktop */}
-          <div className='grid grid-cols-[80px_2fr_1fr_1fr_80px] items-center gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-700 hidden md:grid'>
+          <div className='list-table-header'>
             <span>Image</span>
             <span>Name</span>
             <span>Category</span>
             <span>Price</span>
-            <span className="text-center">Action</span>
+            <span style={{ textAlign: 'center' }}>Action</span>
           </div>
           
           {/* Table Rows */}
-          <div className="divide-y divide-gray-200">
+          <div className="list-table-rows">
             {list.map((item, index) => {
               return (
                 <div 
                   key={index} 
-                  className='grid grid-cols-[80px_1fr] md:grid-cols-[80px_2fr_1fr_1fr_80px] items-center gap-4 px-4 py-4 hover:bg-gray-50 transition-colors'
+                  className='list-table-row'
                 >
                   <img 
                     src={`${url}/images/${item.image}`} 
                     alt={item.name} 
-                    className="w-16 h-16 object-cover rounded-lg border border-gray-200" 
+                    className="list-item-image" 
                   />
-                  <div className="md:hidden flex flex-col gap-1">
-                    <p className="font-semibold text-gray-800">{item.name}</p>
-                    <p className="text-sm text-gray-600">{item.category}</p>
-                    <p className="text-sm font-medium text-gray-800">${item.price}</p>
+                  <div className="list-item-info-mobile">
+                    <p className="list-item-name-mobile">{item.name}</p>
+                    <p className="list-item-category-mobile">{item.category}</p>
+                    <p className="list-item-price-mobile">${item.price}</p>
                   </div>
-                  <p className="hidden md:block font-medium text-gray-800">{item.name}</p>
-                  <p className="hidden md:block text-gray-600">{item.category}</p>
-                  <p className="hidden md:block font-medium text-gray-800">${item.price}</p>
+                  <p className="list-item-name">{item.name}</p>
+                  <p className="list-item-category">{item.category}</p>
+                  <p className="list-item-price">${item.price}</p>
                   <button
                     onClick={() => removeFood(item._id)} 
-                    className='cursor-pointer text-red-500 hover:text-red-700 hover:bg-red-50 font-bold text-lg w-8 h-8 rounded-full flex items-center justify-center transition-all justify-self-center'
+                    className='list-delete-btn'
                     title="Delete item"
                   >
                     ×
@@ -87,7 +88,7 @@ const List = ({url}) => {
           </div>
           
           {list.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="list-empty">
               <p>No food items found. Add your first item!</p>
             </div>
           )}

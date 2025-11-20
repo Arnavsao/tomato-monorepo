@@ -1,25 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-@import "tailwindcss";
 
-@theme {
+:root {
   --font-family-outfit: 'Outfit', sans-serif;
   --color-tomato: #ff6347;
-  --font-family-sans: var(--font-family-outfit);
-}
-
-/* Ensure Tailwind utilities are available */
-@layer utilities {
-  .text-tomato {
-    color: var(--color-tomato);
-  }
-  
-  .bg-tomato {
-    background-color: var(--color-tomato);
-  }
-  
-  .border-tomato {
-    border-color: var(--color-tomato);
-  }
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-red-500: #ef4444;
+  --color-red-700: #b91c1c;
 }
 
 * {
@@ -43,4 +40,17 @@ hr {
   border: none;
   height: 1px;
   background-color: #a9a9a9;
+}
+
+/* Utility classes */
+.text-tomato {
+  color: var(--color-tomato);
+}
+
+.bg-tomato {
+  background-color: var(--color-tomato);
+}
+
+.border-tomato {
+  border-color: var(--color-tomato);
 }
