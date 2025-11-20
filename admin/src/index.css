@@ -1,38 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
-*{
-  padding:0;
-  margin:0;
-  box-sizing: border-box;
-  font-family: outfit;
+:root {
+  --font-family-outfit: 'Outfit', sans-serif;
+  --color-tomato: #ff6347;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-red-500: #ef4444;
+  --color-red-700: #b91c1c;
 }
 
-body{
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
   min-height: 100vh;
   background-color: #fcfcfc;
+  font-family: var(--font-family-outfit);
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
 
-hr{
+hr {
   border: none;
   height: 1px;
   background-color: #a9a9a9;
 }
 
-.app-content{
-  display: flex;
+/* Utility classes */
+.text-tomato {
+  color: var(--color-tomato);
 }
 
-.flex-col{
-  display:flex;
-  flex-direction: column;
-  gap:10px
+.bg-tomato {
+  background-color: var(--color-tomato);
 }
 
-.cursor{
-  cursor: pointer;
+.border-tomato {
+  border-color: var(--color-tomato);
 }

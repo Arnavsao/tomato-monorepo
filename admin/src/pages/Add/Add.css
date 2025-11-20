@@ -1,137 +1,154 @@
-/* Add.css */
-
-/* General container styling */
-.add {
-    width: 70%;
-    margin-left: max(5vw, 25px);  /* Responsive left margin */
-    margin-top: 50px;
-    color: #6d6d6d;
-    font-size: 1rem;  /* Ensure readable font size */
-    max-width: 1200px;  /* Optional: prevent it from becoming too wide */
-    margin-right: 5%;  /* Optional: add some space on the right side */
+.add-container {
+  max-width: 56rem;
+  margin: 0 auto;
 }
 
-/* Form styling */
-.add form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;  /* Space between form fields */
+.add-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-gray-200);
+  padding: 2rem;
 }
 
-/* Flexbox layout for form sections */
-.flex-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;  /* Space between elements within each section */
+.add-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-gray-800);
+  margin-bottom: 1.5rem;
 }
 
-/* Image upload section */
-.add-img-upload {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.add-img-upload p {
-    font-weight: bold;
-    margin-bottom: 10px;
+.add-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 2px dashed var(--color-gray-300);
+  border-radius: 0.5rem;
+  background-color: var(--color-gray-50);
+  transition: border-color 0.2s;
 }
 
-.add-img-upload img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
+.add-upload-section:hover {
+  border-color: var(--color-gray-400);
 }
 
-/* Input fields */
-.add-product-name input,
-.add-product-description textarea,
-.add-category select,
-.add-price input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 100%;
+.add-upload-label-text {
+  font-weight: 600;
+  color: var(--color-gray-700);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Product description textarea */
-.add-product-description textarea {
-    resize: vertical;
-    min-height: 100px;
+.add-upload-label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* Category and Price sections */
-.add-category-price {
-    display: flex;
-    gap: 20px;
+.add-upload-image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
 }
 
-/* Individual category and price sections */
-.add-category, .add-price {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1;  /* Ensures both sections take equal width */
+.add-upload-text {
+  font-size: 0.875rem;
+  color: var(--color-gray-600);
 }
 
-/* Button styling */
-.add-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+.add-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.add-btn:hover {
-    background-color: #45a049;
+.add-form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 1024px) {
-    .add {
-        width: 80%;  /* Adjust width on medium screens */
-    }
-
-    .add-btn {
-        font-size: 1rem;  /* Slightly smaller button font size */
-    }
+.add-form-input,
+.add-form-textarea,
+.add-form-select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  width: 100%;
+  font-family: var(--font-family-outfit);
+  transition: all 0.2s;
 }
 
-@media (max-width: 768px) {
-    .add {
-        width: 90%;  /* Adjust width on small screens */
-    }
-
-    .add-category-price {
-        flex-direction: column;  /* Stack category and price sections on smaller screens */
-        gap: 10px;
-    }
-
-    .add-category, .add-price {
-        flex: none;  /* Ensure they don’t take full width when stacked */
-    }
+.add-form-input:focus,
+.add-form-textarea:focus,
+.add-form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-tomato);
+  border-color: transparent;
 }
 
-@media (max-width: 480px) {
-    .add {
-        width: 95%;  /* Take up more space on extra small screens */
-    }
-
-    .add-img-upload img {
-        width: 80px;  /* Smaller image for mobile */
-        height: 80px;
-    }
-
-    .add-btn {
-        padding: 12px;  /* Smaller button padding for mobile */
-    }
+.add-form-textarea {
+  resize: vertical;
+  min-height: 120px;
 }
+
+.add-form-select {
+  background-color: white;
+}
+
+.add-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .add-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.add-submit-btn {
+  background-color: var(--color-green-500);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  margin-top: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.add-submit-btn:hover {
+  background-color: var(--color-green-600);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.add-success-message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  border-radius: 0.5rem;
+}
+
+.add-success-text {
+  font-weight: 500;
+}
+
