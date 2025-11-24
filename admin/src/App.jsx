@@ -23,7 +23,9 @@ import './App.css';
  * - VITE_CLERK_PUBLISHABLE_KEY: Clerk publishable key (required)
  */
 const App = () => {
-  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
+  // Normalize backend URL - remove trailing slash to prevent double slashes
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
+  const url = backendUrl.replace(/\/+$/, ''); // Remove trailing slashes
 
   return (
     <div>

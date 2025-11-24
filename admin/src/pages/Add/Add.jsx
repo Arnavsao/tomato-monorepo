@@ -32,7 +32,10 @@ const Add = ({ url }) => {
         formData.append('image', image);
 
         try {
-            const response = await axios.post(`${url}/api/food/add`, formData, {
+            // Ensure URL doesn't have trailing slash to prevent double slashes
+            const apiUrl = `${url.replace(/\/+$/, '')}/api/food/add`;
+            console.log('Making POST request to:', apiUrl);
+            const response = await axios.post(apiUrl, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (response.data.success) {

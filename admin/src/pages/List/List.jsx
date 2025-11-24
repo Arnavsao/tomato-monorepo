@@ -10,7 +10,9 @@ const List = ({url}) => {
   const [list,setList]=useState([]);
 
   const fetchList = useCallback(async()=>{
-    const response = await axios.get(`${url}/api/food/list`);
+    // Normalize URL to prevent double slashes
+    const apiUrl = `${url.replace(/\/+$/, '')}/api/food/list`;
+    const response = await axios.get(apiUrl);
     console.log(response.data);
     if (response.data.success){
       setList(response.data.data)
@@ -24,7 +26,9 @@ const List = ({url}) => {
 
   //to remove the food item
   const removeFood = async(foodId)=>{
-    const response = await axios.post(`${url}/api/food/remove`,{id:foodId});
+    // Normalize URL to prevent double slashes
+    const apiUrl = `${url.replace(/\/+$/, '')}/api/food/remove`;
+    const response = await axios.post(apiUrl,{id:foodId});
     await fetchList();
     if (response.data.success){
       toast.success(response.data.message)
@@ -63,7 +67,7 @@ const List = ({url}) => {
                   className='list-table-row'
                 >
                   <img 
-                    src={`${url}/images/${item.image}`} 
+                    src={`${url.replace(/\/+$/, '')}/images/${item.image}`} 
                     alt={item.name} 
                     className="list-item-image" 
                   />
