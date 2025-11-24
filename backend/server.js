@@ -51,6 +51,29 @@ app.use(express.json()); // For parsing application/json
 // Ensure the server only starts after a successful DB connection to prevent
 // API requests from hitting the server before the database is ready.
 
+// API endpoint setup - MUST be registered BEFORE server starts
+app.use("/api/food", foodRouter);
+app.use("/images", express.static('uploads'));
+app.use("/api/user", userRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
+app.use("/api", contactRouter);
+
+// Test route
+app.get("/", (req, res) => {
+    res.send("API Working");
+});
+
+// 404 handler for undefined routes (must be last, after all routes)
+app.use((req, res) => {
+    console.log(`⚠️ Route not found: ${req.method} ${req.path}`);
+    res.status(404).json({
+        success: false,
+        message: `Route not found: ${req.method} ${req.path}`,
+        hint: "Check the API documentation for available endpoints"
+    });
+});
+
 /**
  * Initialize the server after connecting to MongoDB.
  * Adds robust logging so issues are easier to diagnose in development/production.
@@ -78,6 +101,7 @@ async function startServer() {
       if (nodeEnv === 'production') {
         console.log(`🌐 Production URL: ${process.env.BACKEND_URL || 'Not set'}`);
       }
+      console.log(`📡 Routes registered: /api/food, /api/user, /api/cart, /api/order`);
     });
   } catch (err) {
     console.error("❌ Failed to start server:", err?.message || err);
@@ -88,20 +112,5 @@ async function startServer() {
 
 // Kick off startup
 startServer();
-
-// API endpoint setup
-app.use("/api/food", foodRouter);
-app.use("/images", express.static('uploads'));
-app.use("/api/user", userRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/order", orderRouter)
-app.use("/api", contactRouter)
-
-
-
-// Test route
-app.get("/", (req, res) => {
-    res.send("API Working");
-});
 
 // Note: app.listen is now called inside startServer() after DB connection
