@@ -58,6 +58,15 @@ foodRouter.post("/add", upload.single("image"), (req, res, next) => {
     }
 }, addFood);
 
+// Handle GET requests to /add (common mistake - should be POST)
+foodRouter.get("/add", (req, res) => {
+    res.status(405).json({ 
+        success: false, 
+        message: "Method not allowed. Use POST to add food items.",
+        hint: "This endpoint requires a POST request with multipart/form-data"
+    });
+});
+
 foodRouter.get("/list",listFood)
 foodRouter.post("/remove",removeFood)
 
