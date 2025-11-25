@@ -29,6 +29,15 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim().replace(/\/+$/, '')) // Remove trailing slashes
   : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173'];
 
+// Log allowed origins on server start
+console.log('🌐 CORS Configuration:');
+console.log(`   Environment: ${nodeEnv}`);
+console.log(`   Allowed Origins: ${allowedOrigins.length > 0 ? allowedOrigins.join(', ') : 'None configured'}`);
+if (nodeEnv === 'production' && allowedOrigins.length === 0) {
+  console.warn('⚠️  WARNING: No ALLOWED_ORIGINS set in production! CORS will block all requests.');
+  console.warn('   Set ALLOWED_ORIGINS environment variable in Render with your frontend URL(s)');
+}
+
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -40,14 +49,15 @@ app.use(cors({
     if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
       callback(null, true);
     } else {
-      console.log(`⚠️ CORS blocked origin: ${origin}`);
-      console.log(`📋 Allowed origins: ${allowedOrigins.join(', ')}`);
+      console.log(`❌ CORS blocked origin: ${origin}`);
+      console.log(`📋 Configured allowed origins: ${allowedOrigins.join(', ') || 'None'}`);
+      console.log(`💡 To fix: Add "${origin}" to ALLOWED_ORIGINS environment variable in Render`);
       // In development, be more permissive
       if (nodeEnv === 'development') {
         console.log(`🔓 Development mode: Allowing origin ${origin}`);
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error(`CORS: Origin ${origin} not allowed. Add it to ALLOWED_ORIGINS.`));
       }
     }
   },
@@ -71,6 +81,19 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api", contactRouter);
 
+// Health check endpoint - Register early so it's available immediately
+app.get("/api/health", (req, res) => {
+  const dbReadyState = mongoose.connection.readyState; // 0=disconnected,1=connected,2=connecting,3=disconnecting
+  res.json({
+    success: true,
+    status: "ok",
+    dbConnected: dbReadyState === 1,
+    dbState: dbReadyState,
+    env: nodeEnv,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Test route
 app.get("/", (req, res) => {
     res.send("API Working");
@@ -93,18 +116,6 @@ app.use((req, res) => {
 async function startServer() {
   try {
     await connectDB();
-
-    // Expose a lightweight health check endpoint for uptime checks and debugging
-    app.get("/api/health", (req, res) => {
-      const dbReadyState = mongoose.connection.readyState; // 0=disconnected,1=connected,2=connecting,3=disconnecting
-      res.json({
-        success: true,
-        status: "ok",
-        dbConnected: dbReadyState === 1,
-        dbState: dbReadyState,
-        env: nodeEnv,
-      });
-    });
 
     app.listen(port, () => {
       console.log(`🚀 Server started on port ${port}`);
