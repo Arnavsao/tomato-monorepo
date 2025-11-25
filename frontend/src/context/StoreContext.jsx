@@ -13,7 +13,8 @@ export const StoreContext = createContext(null);
 // Define the provider component
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
-    const url = API_BASE_URL;
+    // Normalize URL to prevent double slashes
+    const url = API_BASE_URL.replace(/\/+$/, '');
     const [food_list, setFoodlist] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const { getToken } = useAuth();

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config/api.js';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount } = useContext(StoreContext);
@@ -13,7 +14,7 @@ const PlaceOrder = () => {
     if (amount === 0) return alert('Cart is empty!');
     try {
       // Create order on backend
-      const { data } = await axios.post('/api/order/razorpay', {
+      const { data } = await axios.post(`${API_BASE_URL}/api/order/razorpay`, {
         amount,
         currency: 'INR',
         receipt: 'order_rcptid_11',

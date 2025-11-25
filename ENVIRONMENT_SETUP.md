@@ -29,7 +29,7 @@ TOMATO/
 ### Backend
 
 **No `.env` file needed!** The backend will:
-- Default to port `10000`
+- Default to port `8000`
 - Use `development` mode
 - Allow CORS from common localhost ports
 - Require `MONGODB_URI` to be set (either in `.env` or environment)
@@ -44,7 +44,7 @@ cp backend/.env.example backend/.env
 - `MONGODB_URI` - MongoDB connection string
 
 **Optional:**
-- `PORT` - Server port (defaults to 10000)
+- `PORT` - Server port (defaults to 8000)
 - `NODE_ENV` - Environment (defaults to development)
 - `ALLOWED_ORIGINS` - CORS origins (defaults to localhost ports)
 - `CLERK_SECRET_KEY` - Clerk authentication key
@@ -54,7 +54,7 @@ cp backend/.env.example backend/.env
 
 **No `.env` file needed!** The frontend will:
 - Auto-detect development mode (`npm run dev`)
-- Default backend URL to `http://localhost:10000`
+- Default backend URL to `http://localhost:8000`
 - Require `VITE_CLERK_PUBLISHABLE_KEY` (set in `.env.local` or environment)
 
 **To customize**, create `frontend/.env.local`:
@@ -67,13 +67,13 @@ cp frontend/.env.example frontend/.env.local
 - `VITE_CLERK_PUBLISHABLE_KEY` - Clerk publishable key
 
 **Optional:**
-- `VITE_BACKEND_URL` - Backend URL (defaults to http://localhost:10000)
+- `VITE_BACKEND_URL` - Backend URL (defaults to http://localhost:8000)
 - `VITE_RAZORPAY_KEY_ID` - Payment gateway key (optional)
 
 ### Admin Panel
 
 **No `.env` file needed!** The admin panel will:
-- Default backend URL to `http://localhost:10000`
+- Default backend URL to `http://localhost:8000`
 
 **To customize**, create `admin/.env.local`:
 ```bash
@@ -82,7 +82,7 @@ cp admin/.env.example admin/.env.local
 ```
 
 **Optional:**
-- `VITE_BACKEND_URL` - Backend URL (defaults to http://localhost:10000)
+- `VITE_BACKEND_URL` - Backend URL (defaults to http://localhost:8000)
 
 ## 🌐 Production Deployment
 
@@ -100,7 +100,7 @@ Set these environment variables in your hosting platform:
 ```env
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tomato
 NODE_ENV=production
-PORT=10000  # Usually auto-set by platform
+PORT=8000  # Usually auto-set by platform
 CLERK_SECRET_KEY=sk_live_your_clerk_secret_key_here
 ALLOWED_ORIGINS=https://your-frontend.com,https://your-admin.com
 RAZORPAY_KEY_ID=rzp_live_your_key_id  # Optional
@@ -138,8 +138,8 @@ VITE_BACKEND_URL=https://your-backend-url.onrender.com
 // Detects environment from NODE_ENV
 const nodeEnv = process.env.NODE_ENV || 'development';
 
-// Uses PORT from environment or defaults to 10000
-const port = process.env.PORT || 10000;
+// Uses PORT from environment or defaults to 8000
+const port = process.env.PORT || 8000;
 
 // Uses ALLOWED_ORIGINS or defaults to localhost ports
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
@@ -155,14 +155,14 @@ const isDevelopment = import.meta.env.DEV; // true in dev, false in production
 
 // Priority: VITE_BACKEND_URL > environment default
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 
-                   (isDevelopment ? 'http://localhost:10000' : 'https://production-url.com');
+                   (isDevelopment ? 'http://localhost:8000' : 'https://production-url.com');
 ```
 
 ### Admin (`admin/src/App.jsx`)
 
 ```javascript
 // Simple: Use VITE_BACKEND_URL or default to localhost
-const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
+const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 ```
 
 ## 📋 Quick Start Checklist
@@ -171,7 +171,7 @@ const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
 
 - [ ] Backend: Set `MONGODB_URI` in `backend/.env` (or environment)
 - [ ] Frontend: Set `VITE_CLERK_PUBLISHABLE_KEY` in `frontend/.env.local` (or environment)
-- [ ] Admin: No setup needed (uses localhost:10000 by default)
+- [ ] Admin: No setup needed (uses localhost:8000 by default)
 
 ### Production Deployment
 
@@ -193,7 +193,7 @@ const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
 ### Backend won't start locally
 - Check if `MONGODB_URI` is set
 - Verify MongoDB is running (if using local MongoDB)
-- Check port 10000 is available
+- Check port 8000 is available
 
 ### Frontend can't connect to backend
 - Verify backend is running on the expected port

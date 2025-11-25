@@ -9,7 +9,7 @@
  * 2. Auto-detected based on build mode (dev = localhost, production = production URL)
  * 
  * For local development:
- * - No .env file needed - defaults to http://localhost:10000
+ * - No .env file needed - defaults to http://localhost:8000
  * - Can override with VITE_BACKEND_URL in .env.local
  * 
  * For production deployment:
@@ -21,7 +21,7 @@ export const ENVIRONMENTS = {
   // Development - local backend
   development: {
     name: 'Development',
-    backendUrl: 'http://localhost:10000',
+    backendUrl: 'http://localhost:8000',
     description: 'Local development environment'
   },
   

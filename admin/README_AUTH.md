@@ -19,7 +19,7 @@ Edit `admin/.env.local` and add:
 
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
-VITE_BACKEND_URL=http://localhost:10000
+VITE_BACKEND_URL=http://localhost:8000
 ```
 
 **Get your Clerk key:**

@@ -19,14 +19,14 @@ const app = express();
 // In production deployments (Render, Heroku, etc.), NODE_ENV is typically set to 'production'
 const nodeEnv = process.env.NODE_ENV || 'development';
 
-// Port configuration: Use PORT from environment (required in production) or default to 10000 for local
+// Port configuration: Use PORT from environment (required in production) or default to 8000 for local
 // Production platforms (Render, Heroku) automatically set PORT
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 8000;
 
 // CORS configuration: Use ALLOWED_ORIGINS from environment or default to localhost ports for development
 // In production, set ALLOWED_ORIGINS to your actual frontend and admin URLs
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim().replace(/\/+$/, '')) // Remove trailing slashes
   : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173'];
 
 app.use(cors({
@@ -34,14 +34,26 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Normalize origin by removing trailing slash for comparison
+    const normalizedOrigin = origin.replace(/\/+$/, '');
+    
+    if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
       callback(null, true);
     } else {
-      console.log(`CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      console.log(`⚠️ CORS blocked origin: ${origin}`);
+      console.log(`📋 Allowed origins: ${allowedOrigins.join(', ')}`);
+      // In development, be more permissive
+      if (nodeEnv === 'development') {
+        console.log(`🔓 Development mode: Allowing origin ${origin}`);
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Middleware setup

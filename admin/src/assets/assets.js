@@ -23,4 +23,4 @@ export const assets ={
  * Note: This is kept for backward compatibility.
  * The main App.jsx component also defines this URL.
  */
-export const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000'
+export const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'

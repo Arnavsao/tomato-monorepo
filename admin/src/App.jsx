@@ -19,12 +19,12 @@ import './App.css';
  * Unauthenticated users are redirected to /login.
  * 
  * Environment Configuration:
- * - VITE_BACKEND_URL: Backend API URL (defaults to http://localhost:10000)
+ * - VITE_BACKEND_URL: Backend API URL (defaults to http://localhost:8000)
  * - VITE_CLERK_PUBLISHABLE_KEY: Clerk publishable key (required)
  */
 const App = () => {
   // Normalize backend URL - remove trailing slash to prevent double slashes
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:10000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
   const url = backendUrl.replace(/\/+$/, ''); // Remove trailing slashes
 
   return (

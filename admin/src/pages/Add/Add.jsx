@@ -23,6 +23,17 @@ const Add = ({ url }) => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
+        
+        // Validate required fields
+        if (!image) {
+            toast.error('Please select an image');
+            return;
+        }
+        if (!data.name || !data.price) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
+
         const formData = new FormData();
 
         formData.append('name', data.name);
@@ -34,10 +45,22 @@ const Add = ({ url }) => {
         try {
             // Ensure URL doesn't have trailing slash to prevent double slashes
             const apiUrl = `${url.replace(/\/+$/, '')}/api/food/add`;
-            console.log('Making POST request to:', apiUrl);
-            const response = await axios.post(apiUrl, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+            console.log('📤 Making POST request to:', apiUrl);
+            console.log('📦 FormData entries:', {
+                name: data.name,
+                description: data.description,
+                price: data.price,
+                category: data.category,
+                image: image ? image.name : 'No image'
             });
+            
+            const response = await axios.post(apiUrl, formData, {
+                headers: { 
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            console.log('✅ Response received:', response.data);
             if (response.data.success) {
                 setSuccess(true);
                 // Clear form data except for the category
@@ -55,8 +78,28 @@ const Add = ({ url }) => {
             }
         } catch (error) {
             setSuccess(false);
-            const message = error?.response?.data?.message || 'Error submitting form';
-            console.error('Error submitting form:', error);
+            console.error('❌ Error submitting form:', error);
+            console.error('Error details:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status,
+                statusText: error.response?.statusText
+            });
+            
+            let message = 'Error submitting form';
+            if (error.response) {
+                // Server responded with error
+                message = error.response.data?.message || 
+                         error.response.data?.error || 
+                         `Server error: ${error.response.status} ${error.response.statusText}`;
+            } else if (error.request) {
+                // Request made but no response received
+                message = 'No response from server. Check your backend URL and CORS settings.';
+            } else {
+                // Error setting up request
+                message = error.message || 'Error setting up request';
+            }
+            
             toast.error(message);
         }
     };
