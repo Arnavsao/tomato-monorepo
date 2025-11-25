@@ -1,9 +1,25 @@
 import { BACKEND_URL } from './environment.js';
 
-// Export the base URL for the current environment
-export const API_BASE_URL = BACKEND_URL;
+/**
+ * Normalize URL by removing trailing slashes
+ * Prevents double slashes when combining base URL with endpoints
+ */
+const normalizeUrl = (url) => {
+  if (!url) return url;
+  return url.replace(/\/+$/, ''); // Remove trailing slashes
+};
 
-// Helper function to build API endpoints
+// Export the base URL for the current environment (normalized)
+export const API_BASE_URL = normalizeUrl(BACKEND_URL);
+
+/**
+ * Helper function to build API endpoints
+ * Ensures no double slashes in the final URL
+ * @param {string} endpoint - API endpoint (should start with /)
+ * @returns {string} Full API URL
+ */
 export const buildApiUrl = (endpoint) => {
-  return `${API_BASE_URL}${endpoint}`;
+  const base = normalizeUrl(API_BASE_URL);
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  return `${base}${path}`;
 }; 

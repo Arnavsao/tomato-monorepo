@@ -54,7 +54,7 @@ npm run dev
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
    CLERK_SECRET_KEY=sk_live_your_clerk_secret_key_here
    NODE_ENV=production
-   PORT=10000
+   PORT=8000
    ALLOWED_ORIGINS=https://your-frontend.com,https://your-admin.com
    ```
 
