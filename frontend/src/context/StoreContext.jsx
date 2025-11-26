@@ -49,6 +49,13 @@ const StoreContextProvider = (props) => {
     const addToCart = async (itemId) => {
         if (!itemId) return; // Prevent adding undefined
 
+        // Check if user is signed in
+        if (!isSignedIn || !user) {
+            toast.error("Please sign in to add items to cart");
+            return;
+        }
+
+        // Optimistically update UI
         setCartItems((prev) => {
             const updatedCart = { ...prev, [itemId]: (prev[itemId] || 0) + 1 };
 
@@ -61,28 +68,82 @@ const StoreContextProvider = (props) => {
         });
 
         try {
+            // Get token from Clerk (no template needed - uses default session token)
             const token = await getToken();
-            if (token) {
-                const response = await axios.post(
-                    `${url}/api/cart/add`,
-                    { itemId },
-                    { headers: { authorization: `Bearer ${token}` } }
-                );
+            if (!token) {
+                console.error('❌ No token available from Clerk');
+                toast.error("Authentication failed. Please sign in again.");
+                // Revert optimistic update
+                setCartItems((prev) => {
+                    const newCart = { ...prev };
+                    if (newCart[itemId] > 1) {
+                        newCart[itemId]--;
+                    } else {
+                        delete newCart[itemId];
+                    }
+                    return newCart;
+                });
+                return;
+            }
 
-                if (response.data.success) {
-                    toast.success("Item Added to Cart");
-                } else {
-                    toast.error("Something went wrong");
-                }
+            const response = await axios.post(
+                `${url}/api/cart/add`,
+                { itemId },
+                { headers: { authorization: `Bearer ${token}` } }
+            );
+
+            if (response.data.success) {
+                toast.success("Item Added to Cart");
+            } else {
+                toast.error("Something went wrong");
+                // Revert optimistic update
+                setCartItems((prev) => {
+                    const newCart = { ...prev };
+                    if (newCart[itemId] > 1) {
+                        newCart[itemId]--;
+                    } else {
+                        delete newCart[itemId];
+                    }
+                    return newCart;
+                });
             }
         } catch (error) {
             console.error("Error adding to cart:", error);
-            toast.error("Server Error: Unable to add item to cart.");
+            console.error("Error response:", error.response?.data);
+            console.error("Error status:", error.response?.status);
+            
+            // Revert optimistic update on error
+            setCartItems((prev) => {
+                const newCart = { ...prev };
+                if (newCart[itemId] > 1) {
+                    newCart[itemId]--;
+                } else {
+                    delete newCart[itemId];
+                }
+                return newCart;
+            });
+
+            // Show appropriate error message
+            if (error.response?.status === 401) {
+                const errorMessage = error.response?.data?.message || error.response?.data?.details || "Session expired. Please sign in again.";
+                console.error("401 Error details:", errorMessage);
+                toast.error(errorMessage);
+            } else {
+                toast.error("Server Error: Unable to add item to cart.");
+            }
         }
     };
 
     // ✅ Fix: Remove item properly
     const removeFromCart = async (itemId) => {
+        // Check if user is signed in
+        if (!isSignedIn || !user) {
+            toast.error("Please sign in to modify cart");
+            return;
+        }
+
+        // Optimistically update UI
+        const previousQuantity = cartItems[itemId] || 0;
         setCartItems(prev => {
             const newCart = { ...prev };
             if (newCart[itemId] > 1) {
@@ -95,15 +156,36 @@ const StoreContextProvider = (props) => {
 
         try {
             const token = await getToken();
-            if (token) {
-                await axios.post(
-                    `${url}/api/cart/remove`, 
-                    { itemId }, 
-                    { headers: { authorization: `Bearer ${token}` } }
-                );
+            if (!token) {
+                toast.error("Authentication failed. Please sign in again.");
+                // Revert optimistic update
+                setCartItems(prev => ({
+                    ...prev,
+                    [itemId]: previousQuantity
+                }));
+                return;
             }
+
+            await axios.post(
+                `${url}/api/cart/remove`, 
+                { itemId }, 
+                { headers: { authorization: `Bearer ${token}` } }
+            );
         } catch (error) {
             console.error("Error removing item from cart:", error);
+            
+            // Revert optimistic update on error
+            setCartItems(prev => ({
+                ...prev,
+                [itemId]: previousQuantity
+            }));
+
+            // Show appropriate error message
+            if (error.response?.status === 401) {
+                toast.error("Session expired. Please sign in again.");
+            } else {
+                toast.error("Unable to remove item from cart.");
+            }
         }
     };
 

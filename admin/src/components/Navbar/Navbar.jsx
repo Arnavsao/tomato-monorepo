@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { assets } from '../../assets/assets.js';
 import { useUser, UserButton } from '@clerk/clerk-react';
 import './Navbar.css';
@@ -53,6 +54,11 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
       </div>
     </div>
   );
+};
+
+Navbar.propTypes = {
+  sidebarOpen: PropTypes.bool.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default Navbar;

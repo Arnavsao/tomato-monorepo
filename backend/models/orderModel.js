@@ -6,8 +6,10 @@ const orderSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     address: { type: Object, required: true },
     status: { type: String, default: "Food Processing" },
-    date: { type: Date, default: () => Date.now() }, // ✅ Fixed default date
-    payment: { type: Boolean, default: false }
+    date: { type: Date, default: () => Date.now() },
+    payment: { type: Boolean, default: false },
+    razorpayOrderId: { type: String, default: null },
+    razorpayPaymentId: { type: String, default: null }
 });
 
 const orderModel = mongoose.models.order || mongoose.model("order", orderSchema); // ✅ Fixed typo
