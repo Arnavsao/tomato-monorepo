@@ -5,6 +5,7 @@
   border-right: 1px solid var(--color-gray-200);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease-in-out;
 }
 
 .sidebar-header {
@@ -56,5 +57,39 @@
 
 .sidebar-link-text {
   font-size: 0.875rem;
+}
+
+/* Mobile styles - Sidebar as overlay */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 200;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    padding: 1rem 1.5rem;
+    padding-top: calc(1rem + 64px); /* Account for navbar height */
+  }
+
+  .sidebar-nav {
+    padding: 1rem;
+  }
+}
+
+/* Tablet and Desktop styles */
+@media (min-width: 768px) {
+  .sidebar {
+    position: relative;
+    transform: translateX(0);
+  }
 }
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -23,9 +23,41 @@ import './App.css';
  * - VITE_CLERK_PUBLISHABLE_KEY: Clerk publishable key (required)
  */
 const App = () => {
+  // Mobile menu state management
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Normalize backend URL - remove trailing slash to prevent double slashes
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
   const url = backendUrl.replace(/\/+$/, ''); // Remove trailing slashes
+
+  /**
+   * Toggle mobile menu visibility
+   */
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  /**
+   * Close mobile menu when clicking outside or on navigation
+   */
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  /**
+   * Close mobile menu when window is resized to desktop width
+   * Prevents menu from staying open when switching from mobile to desktop view
+   */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
 
   return (
     <div>
@@ -40,9 +72,23 @@ const App = () => {
           element={
             <ProtectedRoute>
               <div className="app-container">
-                <Navbar />
+                <Navbar 
+                  isMobileMenuOpen={isMobileMenuOpen}
+                  toggleMobileMenu={toggleMobileMenu}
+                />
                 <div className="app-main-layout">
-                  <Sidebar />
+                  {/* Mobile backdrop overlay */}
+                  {isMobileMenuOpen && (
+                    <div 
+                      className="mobile-backdrop"
+                      onClick={closeMobileMenu}
+                      aria-hidden="true"
+                    />
+                  )}
+                  <Sidebar 
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    closeMobileMenu={closeMobileMenu}
+                  />
                   <main className="app-main-content">
                     <div className="app-main-content-wrapper">
                       <Routes>

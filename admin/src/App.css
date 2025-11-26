@@ -9,15 +9,39 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  position: relative;
+}
+
+/* Mobile backdrop overlay when sidebar is open */
+.mobile-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .app-main-content {
   flex: 1;
   overflow-y: auto;
+  width: 100%;
 }
 
 .app-main-content-wrapper {
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .app-not-found {
@@ -29,5 +53,30 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-tomato);
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .mobile-backdrop {
+    display: block;
+  }
+
+  .app-main-content-wrapper {
+    padding: 1rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-main-content-wrapper {
+    padding: 1.5rem;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .app-main-content-wrapper {
+    padding: 2rem;
+  }
 }
 
