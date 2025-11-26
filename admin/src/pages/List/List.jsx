@@ -75,6 +75,9 @@ const List = ({url}) => {
                     <p className="list-item-name-mobile">{item.name}</p>
                     <p className="list-item-category-mobile">{item.category}</p>
                     <p className="list-item-price-mobile">${item.price}</p>
+                    {item.description && (
+                      <p className="list-item-description-mobile">{item.description}</p>
+                    )}
                   </div>
                   <p className="list-item-name">{item.name}</p>
                   <p className="list-item-category">{item.category}</p>

@@ -73,12 +73,13 @@
 
 .list-table-row {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 80px 1fr auto;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
   border-bottom: 1px solid var(--color-gray-200);
   transition: background-color 0.2s;
+  position: relative;
 }
 
 .list-table-row:hover {
@@ -97,22 +98,36 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  flex: 1;
 }
 
 .list-item-name-mobile {
   font-weight: 600;
   color: var(--color-gray-800);
+  font-size: 0.875rem;
 }
 
 .list-item-category-mobile {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-gray-600);
 }
 
 .list-item-price-mobile {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-gray-800);
+}
+
+.list-item-description-mobile {
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .list-item-name,
@@ -149,7 +164,8 @@
   transition: all 0.2s;
   border: none;
   background: none;
-  justify-self: center;
+  justify-self: end;
+  flex-shrink: 0;
 }
 
 .list-delete-btn:hover {
@@ -169,7 +185,7 @@
   }
 
   .list-table-row {
-    grid-template-columns: 80px 2fr 1fr 1fr 80px;
+    grid-template-columns: 80px 2fr 1fr 1fr auto;
   }
 
   .list-item-info-mobile {
@@ -180,6 +196,10 @@
   .list-item-category,
   .list-item-price {
     display: block;
+  }
+
+  .list-delete-btn {
+    justify-self: end;
   }
 }
 

@@ -59,7 +59,18 @@ const App = () => {
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         {/* Public route - Login page */}
         <Route path="/login" element={<Login />} />
