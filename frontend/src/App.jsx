@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
 import Cart from './pages/Cart/Cart';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
@@ -29,22 +30,93 @@ const App = () => {
     <>
       {showLogin && <ClerkLogin setShowLogin={setShowLogin} />}
       {showProfileSettings && <ProfileSettings setShowProfileSettings={setShowProfileSettings} />}
-      <div className='app'>
-        <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/order' element={<PlaceOrder />} />
-          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-          <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
-          <Route path='/refund-policy' element={<RefundPolicy />} />
-          <Route path='/delivery' element={<Delivery />} />
-          <Route path='/about-us' element={<AboutUs />} />
-          <Route path='/contact-us' element={<ContactUs />} />
-
-        </Routes>
-      </div>
-      <Footer />
+      <Routes>
+        {/* Landing page - shown at root for evaluators */}
+        <Route path='/' element={<Landing />} />
+        
+        {/* Customer app routes - with navbar and footer */}
+        <Route path='/home' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <Home />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/cart' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <Cart />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/order' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <PlaceOrder />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/privacy-policy' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <PrivacyPolicy />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/terms-and-conditions' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <TermsAndConditions />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/refund-policy' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <RefundPolicy />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/delivery' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <Delivery />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/about-us' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <AboutUs />
+            </div>
+            <Footer />
+          </>
+        } />
+        <Route path='/contact-us' element={
+          <>
+            <div className='app'>
+              <Navbar setShowLogin={setShowLogin} setShowProfileSettings={setShowProfileSettings} />
+              <ContactUs />
+            </div>
+            <Footer />
+          </>
+        } />
+      </Routes>
     </>
   );
 }
