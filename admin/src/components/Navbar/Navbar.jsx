@@ -9,15 +9,31 @@ import './Navbar.css';
  * 
  * Displays admin panel navigation with:
  * - Logo with "Tomato." text
+ * - Hamburger menu button for mobile devices
  * - User information (name, email)
  * - Clerk UserButton for account management and logout
+ * 
+ * @param {Object} props - Component props
+ * @param {boolean} props.sidebarOpen - Whether the sidebar is currently open (mobile)
+ * @param {Function} props.toggleSidebar - Function to toggle sidebar visibility
  */
-const Navbar = () => {
+const Navbar = ({ sidebarOpen, toggleSidebar }) => {
   const { user, isLoaded } = useUser();
 
   return (
     <div className='navbar'>
       <div className="navbar-left">
+        {/* Hamburger Menu Button - Visible on mobile */}
+        <button 
+          className="navbar-hamburger"
+          onClick={toggleSidebar}
+          aria-label="Toggle menu"
+          aria-expanded={sidebarOpen}
+        >
+          <span className={`hamburger-line ${sidebarOpen ? 'active' : ''}`}></span>
+          <span className={`hamburger-line ${sidebarOpen ? 'active' : ''}`}></span>
+          <span className={`hamburger-line ${sidebarOpen ? 'active' : ''}`}></span>
+        </button>
         <img className='navbar-logo' src={assets.logo} alt="Tomato Logo" />
       </div>
       <div className="navbar-right">
