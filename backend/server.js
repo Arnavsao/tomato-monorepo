@@ -117,6 +117,14 @@ async function startServer() {
   try {
     await connectDB();
 
+    // Check critical environment variables
+    if (!process.env.CLERK_SECRET_KEY) {
+      console.warn('⚠️  WARNING: CLERK_SECRET_KEY not set. Authentication will fail.');
+      console.warn('   Set CLERK_SECRET_KEY in backend/.env or environment variables');
+    } else {
+      console.log('✅ Clerk authentication configured');
+    }
+
     app.listen(port, () => {
       console.log(`🚀 Server started on port ${port}`);
       console.log(`🌍 Environment: ${nodeEnv}`);

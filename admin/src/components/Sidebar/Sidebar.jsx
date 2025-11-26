@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { assets } from '../../assets/assets';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
@@ -72,6 +73,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       </div>
     </>
   );
+};
+
+Sidebar.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
