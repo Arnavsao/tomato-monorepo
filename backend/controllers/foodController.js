@@ -1,6 +1,5 @@
 import foodModel from "../models/foodModel.js";
-import path from 'path';  // Add this import
-import fs from 'fs';     // Add this import
+import { deleteFromCloudinary } from "../config/cloudinary.js";
 
 // Add food item
 const addFood = async (req, res) => {
@@ -11,19 +10,20 @@ const addFood = async (req, res) => {
         return res.status(400).json({ success: false, message: "No file uploaded" });
     }
 
-    let image_filename = `${req.file.filename}`;
-    
+    // Cloudinary automatically uploads and provides the URL in req.file.path
+    let image_url = req.file.path; // This is the Cloudinary URL
+
     const food = new foodModel({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
-        image: image_filename,
+        image: image_url, // Store the full Cloudinary URL
     });
 
     try {
         await food.save();
-        res.json({ success: true, message: "Food Added" });
+        res.json({ success: true, message: "Food Added", imageUrl: image_url });
     } catch (error) {
         console.log("Error Saving Food:", error);  // Log error if saving fails
         res.status(500).json({ success: false, message: "Error Adding Food" });
@@ -52,17 +52,18 @@ const removeFood = async (req, res) => {
 
         console.log("Food to be deleted:", food); // Log the food document
 
-        // Delete the associated file
-        const filePath = path.join("uploads", food.image);  // Correct use of path
-        console.log("File path to delete:", filePath);
-
-        fs.unlink(filePath, (err) => {
-            if (err) {
-                console.error("File deletion error:", err);
-            } else {
-                console.log("File deleted successfully:", food.image);
+        // Delete the image from Cloudinary if it's a Cloudinary URL
+        if (food.image && food.image.includes('cloudinary.com')) {
+            try {
+                await deleteFromCloudinary(food.image);
+                console.log("Image deleted from Cloudinary:", food.image);
+            } catch (error) {
+                console.error("Error deleting image from Cloudinary:", error);
+                // Continue with database deletion even if Cloudinary deletion fails
             }
-        });
+        } else {
+            console.log("Image is not a Cloudinary URL, skipping cloud deletion");
+        }
 
         // Remove the food item from the database
         await foodModel.findByIdAndDelete(req.body.id);

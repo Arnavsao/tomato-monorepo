@@ -25,7 +25,7 @@ const port = process.env.PORT || 8000;
 
 // CORS configuration: Use ALLOWED_ORIGINS from environment or default to localhost ports for development
 // In production, set ALLOWED_ORIGINS to your actual frontend and admin URLs
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim().replace(/\/+$/, '')) // Remove trailing slashes
   : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173'];
 
@@ -42,10 +42,10 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     // Normalize origin by removing trailing slash for comparison
     const normalizedOrigin = origin.replace(/\/+$/, '');
-    
+
     if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
       callback(null, true);
     } else {
@@ -75,7 +75,8 @@ app.use(express.json()); // For parsing application/json
 
 // API endpoint setup - MUST be registered BEFORE server starts
 app.use("/api/food", foodRouter);
-app.use("/images", express.static('uploads'));
+// Images are now served from Cloudinary CDN, no need for static file serving
+// app.use("/images", express.static('uploads'));
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
@@ -96,17 +97,17 @@ app.get("/api/health", (req, res) => {
 
 // Test route
 app.get("/", (req, res) => {
-    res.send("API Working");
+  res.send("API Working");
 });
 
 // 404 handler for undefined routes (must be last, after all routes)
 app.use((req, res) => {
-    console.log(`⚠️ Route not found: ${req.method} ${req.path}`);
-    res.status(404).json({
-        success: false,
-        message: `Route not found: ${req.method} ${req.path}`,
-        hint: "Check the API documentation for available endpoints"
-    });
+  console.log(`⚠️ Route not found: ${req.method} ${req.path}`);
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.path}`,
+    hint: "Check the API documentation for available endpoints"
+  });
 });
 
 /**

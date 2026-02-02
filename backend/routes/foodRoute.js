@@ -1,30 +1,11 @@
 import express from "express";
 import multer from "multer";
-import fs from "fs";
-import path from "path";
 import { addFood, listFood, removeFood } from "../controllers/foodController.js";
+import { storage } from "../config/cloudinary.js";
 
 const foodRouter = express.Router();
 
-// Ensure the 'uploads' directory exists or create it
-const uploadDir = path.join(process.cwd(), "uploads");
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true }); // Create 'uploads' directory
-}
-
-// Image Storage Engine
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads"); // Save uploaded files to the 'uploads' directory
-    },
-    filename: (req, file, cb) => {
-        const timestamp = Date.now();
-        const sanitizedFilename = file.originalname.replace(/[^a-zA-Z0-9.-]/g, "_");
-        cb(null, `${timestamp}-${sanitizedFilename}`); // Generate a unique filename
-    },
-});
-
-// File upload middleware with validation
+// File upload middleware with Cloudinary storage and validation
 const upload = multer({
     storage: storage,
     limits: {
@@ -60,15 +41,15 @@ foodRouter.post("/add", upload.single("image"), (req, res, next) => {
 
 // Handle GET requests to /add (common mistake - should be POST)
 foodRouter.get("/add", (req, res) => {
-    res.status(405).json({ 
-        success: false, 
+    res.status(405).json({
+        success: false,
         message: "Method not allowed. Use POST to add food items.",
         hint: "This endpoint requires a POST request with multipart/form-data"
     });
 });
 
-foodRouter.get("/list",listFood)
-foodRouter.post("/remove",removeFood)
+foodRouter.get("/list", listFood)
+foodRouter.post("/remove", removeFood)
 
 
 export default foodRouter;

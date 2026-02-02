@@ -22,7 +22,7 @@ function Cart() {
           if (cartItems[item._id] > 0) {
             return (
               <div key={index} className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_0.5fr] items-center text-[max(1vw,12px)] p-2.5 border-b border-[#e2e2e2]">
-                <img src={url+"/images/"+item.image} alt="" className="w-[50px] h-auto" />
+                <img src={item.image.startsWith('http') ? item.image : url + "/images/" + item.image} alt="" className="w-[50px] h-auto" />
                 <p className="m-0">{item.name}</p>
                 <p className="m-0">{item.price}</p>
                 <p className="m-0">{cartItems[item._id]}</p>
@@ -45,16 +45,16 @@ function Cart() {
             <hr className="my-2.5" />
             <div className="flex justify-between items-center">
               <p>Delivery fee</p>
-              <p>₹{getTotalCartAmount()===0?0:40}</p>
+              <p>₹{getTotalCartAmount() === 0 ? 0 : 40}</p>
             </div>
             <hr className="my-2.5" />
             <div className="flex justify-between items-center">
               <p><b>Total</b></p>
-              <p>₹{getTotalCartAmount()===0?0:getTotalCartAmount()+40}</p>
+              <p>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 40}</p>
             </div>
           </div>
-          <button 
-            onClick={()=>navigate('/order')}
+          <button
+            onClick={() => navigate('/order')}
             className="border-none text-white bg-[#ff6347] w-[max(15vw,200px)] py-3 rounded cursor-pointer hover:bg-[rgb(228,60,30)]"
           >
             PROCEED TO CHECKOUT
@@ -64,9 +64,9 @@ function Cart() {
           <div>
             <p className="text-[#555] mt-5">If you have a promocode, enter it here</p>
             <div className="mt-2.5 flex justify-between items-center rounded">
-              <input 
-                type="text" 
-                placeholder='promocode' 
+              <input
+                type="text"
+                placeholder='promocode'
                 className="bg-transparent border-1 outline-none pl-2.5 bg-[rgb(239,239,239)] h-10 rounded w-[70%] mr-5"
               />
               <button className="w-[max(10vw,150px)] py-3 px-1.5 bg-[rgb(54,54,54)] border-none text-white rounded hover:bg-black">
