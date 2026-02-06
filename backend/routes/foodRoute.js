@@ -22,29 +22,15 @@ const upload = multer({
     },
 });
 
-// Route for adding food with file upload
-foodRouter.post("/add", upload.single("image"), (req, res, next) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ success: false, message: "File upload failed." });
-        }
-
-        console.log("Uploaded File Info:", req.file); // Log uploaded file info
-        console.log("Request Body:", req.body); // Log other form fields
-
-        // Proceed to the addFood controller
-        next();
-    } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
-    }
-}, addFood);
+// Route for adding food - supports both file upload and direct URL
+foodRouter.post("/add", upload.single("image"), addFood);
 
 // Handle GET requests to /add (common mistake - should be POST)
 foodRouter.get("/add", (req, res) => {
     res.status(405).json({
         success: false,
         message: "Method not allowed. Use POST to add food items.",
-        hint: "This endpoint requires a POST request with multipart/form-data"
+        hint: "This endpoint accepts both multipart/form-data (file upload) and application/json (Cloudinary URL)"
     });
 });
 

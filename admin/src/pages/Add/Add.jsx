@@ -23,7 +23,7 @@ const Add = ({ url }) => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        
+
         // Validate required fields
         if (!image) {
             toast.error('Please select an image');
@@ -53,13 +53,13 @@ const Add = ({ url }) => {
                 category: data.category,
                 image: image ? image.name : 'No image'
             });
-            
+
             const response = await axios.post(apiUrl, formData, {
-                headers: { 
+                headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             console.log('✅ Response received:', response.data);
             if (response.data.success) {
                 setSuccess(true);
@@ -85,13 +85,13 @@ const Add = ({ url }) => {
                 status: error.response?.status,
                 statusText: error.response?.statusText
             });
-            
+
             let message = 'Error submitting form';
             if (error.response) {
                 // Server responded with error
-                message = error.response.data?.message || 
-                         error.response.data?.error || 
-                         `Server error: ${error.response.status} ${error.response.statusText}`;
+                message = error.response.data?.message ||
+                    error.response.data?.error ||
+                    `Server error: ${error.response.status} ${error.response.statusText}`;
             } else if (error.request) {
                 // Request made but no response received
                 message = 'No response from server. Check your backend URL and CORS settings.';
@@ -99,7 +99,7 @@ const Add = ({ url }) => {
                 // Error setting up request
                 message = error.message || 'Error setting up request';
             }
-            
+
             toast.error(message);
         }
     };
@@ -108,14 +108,14 @@ const Add = ({ url }) => {
         <div className="add-container">
             <div className="add-card">
                 <h1 className="add-title">Add New Product</h1>
-                
+
                 <form className="add-form" onSubmit={onSubmitHandler}>
                     {/* Upload Image Section */}
                     <div className="add-upload-section">
                         <p className="add-upload-label-text">Upload Image</p>
                         <label htmlFor="image" className="add-upload-label">
-                            <img 
-                                src={image ? URL.createObjectURL(image) : assets.upload_area} 
+                            <img
+                                src={image ? URL.createObjectURL(image) : assets.upload_area}
                                 alt="Upload Area"
                                 className="add-upload-image"
                             />
@@ -123,14 +123,17 @@ const Add = ({ url }) => {
                                 <span className="add-upload-text">Click to upload</span>
                             )}
                         </label>
-                        <input 
-                            onChange={(e) => setImage(e.target.files[0])} 
-                            type="file" 
-                            id="image" 
+                        <input
+                            onChange={(e) => setImage(e.target.files[0])}
+                            type="file"
+                            id="image"
                             style={{ display: 'none' }}
                             accept="image/*"
-                            required 
+                            required
                         />
+                        <p className="add-helper-text">
+                            📤 Image will be automatically uploaded to Cloudinary
+                        </p>
                     </div>
 
                     {/* Product Name */}
@@ -164,9 +167,9 @@ const Add = ({ url }) => {
                     <div className="add-form-grid">
                         <div className="add-form-group">
                             <label className="add-form-label">Product category</label>
-                            <select 
-                                onChange={onChangeHandler} 
-                                name="category" 
+                            <select
+                                onChange={onChangeHandler}
+                                name="category"
                                 value={data.category}
                                 className="add-form-select"
                             >
@@ -195,8 +198,8 @@ const Add = ({ url }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="add-submit-btn"
                     >
                         Add Product
